@@ -2,6 +2,9 @@
     "manifest_version": 3,
     "name": "X Image Saver",
     "version": "1.0",
+    "permissions": [
+        "downloads"
+    ],
     "content_scripts": [
         {
             "matches": [
