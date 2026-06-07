@@ -14,5 +14,8 @@
                 "content.js"
             ]
         }
-    ]
+    ],
+    "background": {
+        "service_worker": "service_worker.js"
+    }
 }

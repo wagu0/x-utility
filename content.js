@@ -1,3 +1,6 @@
+//todo 画像保存時にファイル名に投稿者のIDと投稿日時を付与する
+//todo 画像保存場所をユーザーが選択できるようにする
+
 /** 画像が含まれたツイートを検知するためのセレクタ */
 const IMAGE_TWEET_SELECTOR = '[data-testid="tweetPhoto"]';
 /** ホバーしているツイート内の画像を保存する変数 */
@@ -50,5 +53,49 @@ document.addEventListener("keydown", (event) => {
         const origUrl = imgSrc.replace(/&name=\w+/, "&name=orig");
         console.log("orig画像のURL:", origUrl);
         console.log("chrome.donwloads:", chrome.downloads);
+
+        //service_worker.jsに送信するテスト
+        chrome.runtime.sendMessage({ action: "downloadImage", url: origUrl }, (response) => {
+            if (response && response.success) {
+                console.log("画像のダウンロードが成功しました。");
+                showSavingIndicator(); // 保存中のインジケーターを表示
+            } else {
+                console.error("画像のダウンロードに失敗しました。");
+            }
+        });
     }
 });
+/**
+ * 保存中のインジケーターを表示
+ */
+function showSavingIndicator() {
+    const nav = document.createElement('nav');
+    nav.innerHTML = `
+<style>
+#png-saving {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99999;
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 20px 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+#png-saving h3 {
+    color: #ffffff;
+    font-size: 24px;
+    font-family: sans-serif;
+    margin: 0;
+    text-align: center;
+}
+</style>
+<div id="png-saving">
+  <h3>PNG保存中...</h3>
+</div>`;
+    // UIを画面に表示
+    const element = document.body.appendChild(nav);
+    // 1.5秒後に表示を削除
+    setTimeout(() => element.remove(), 1500);
+}
