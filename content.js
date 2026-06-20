@@ -1,5 +1,4 @@
 //todo 画像保存場所をユーザーが選択できるようにする
-//todo 画像保存時のLキー入力によりツイートのいいねがされないようにする
 
 /** 画像が含まれたツイートを検知するためのセレクタ */
 const IMAGE_TWEET_SELECTOR = '[data-testid="tweetPhoto"]';
@@ -73,6 +72,8 @@ document.addEventListener("keydown", (event) => {
     if (event.key === SAVE_TRIGGER_KEY) {
         console.log("Lキーが押されました！");
         const img = targetTweetImg.querySelector("img");
+
+        event.preventDefault(); // Lキーのデフォルトの動作（ツイートのいいね）を防止
 
         if (!img) {
             console.log("保存対象の画像が見つかりませんでした。");
