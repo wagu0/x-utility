@@ -1,18 +1,23 @@
 //todo 画像保存場所をユーザーが選択できるようにする
 //todo メディアツイート画面からも正常に画像を保存できるようにする
-//todo 任意のキー入力でホバーしているツイートに対してのいいね、ブックマークをできるようにする。ツイートを選択していると既存機能でもできるためイベントを阻止する。
+//todo メディアが複数存在する場合保存する画像名にナンバリングをつける
+//todo 任意のキー入力でホバーしているツイートに対してブックマークをできるようにする。ツイートを選択していると既存機能でもできるためイベントを阻止する。
 
 /** 画像が含まれたツイートを検知するためのセレクタ */
 const IMAGE_TWEET_SELECTOR = '[data-testid="tweetPhoto"]';
 /** ツイートのセレクタ */
 const TWEET_SELECTOR = 'article[data-testid="tweet"]';
+/** いいねボタンのセレクタ */
+const LIKE_BUTTON_SELECTOR = '[data-testid="like"]';
+/** いいね済みボタンのセレクタ */
+const LIKED_BUTTON_SELECTOR = '[data-testid="unlike"]';
 /** プロフィールページのセレクタ */
 const PROFILE_PAGE_SELECTOR = '[data-testid="User-Name"]';
 /** ツイートのURLに含まれる文字列 */
 const STATUS = "status";
 /** ツイートの投稿日時を取得するためのセレクタ */
 const TWEET_TIME_TAG = 'time';
-const TWEET_TIME_DATATIM = "datetime";
+const TWEET_TIME_DATATIME = "datetime";
 /** ホバーしているツイート内の画像を保存する変数 */
 let targetTweetImg = null;
 /** 画像の拡張子を保存する変数 */
@@ -21,8 +26,11 @@ let imageExtension = null;
 let userID = "UnknownUser";
 /** ツイートの投稿日時を保存する変数 */
 let tweetDateforJST = "UnknownDate";
+/** ツイート要素を保存する変数 */
+let targetTweet = null;
 
 const SAVE_TRIGGER_KEY = "l"; // 画像保存のトリガーキーを定義
+const LIKE_TRIGGER_KEY = "k"; // いいねのトリガーキーを定義
 const IMG_REGEX = /https:\/\/pbs\.twimg\.com\/media\/\w+\.\w+&name=\w+/; // 画像URLの正規表現
 
 
@@ -32,13 +40,13 @@ document.addEventListener("mouseover", (event) => {
     if (!closestTweetImg) {
         return;
     }
-    const closestTweet = closestTweetImg.closest(TWEET_SELECTOR);
-    if (!closestTweet) {
+    targetTweet = closestTweetImg.closest(TWEET_SELECTOR);
+    if (!targetTweet) {
         return;
     }
-    const userNameElement = closestTweet.querySelector(PROFILE_PAGE_SELECTOR) || "UnknownUser";
-    const tweetTimeElement = closestTweet.querySelector(TWEET_TIME_TAG);
-    const tweetTime = tweetTimeElement ? tweetTimeElement.getAttribute(TWEET_TIME_DATATIM) : "UnknownTime";
+    const userNameElement = targetTweet.querySelector(PROFILE_PAGE_SELECTOR) || "UnknownUser";
+    const tweetTimeElement = targetTweet.querySelector(TWEET_TIME_TAG);
+    const tweetTime = tweetTimeElement ? tweetTimeElement.getAttribute(TWEET_TIME_DATATIME) : "UnknownTime";
     const tweetTimeforJST = tweetTime ? new Date(tweetTime).toLocaleString("ja-JP") : "UnknownTime";
     tweetDateforJST = tweetTimeforJST ? tweetTimeforJST.split(" ")[0] : "UnknownDate";
     tweetDateforJST = tweetDateforJST.replace(/\//g, "-"); // ファイル名に使用するため、日付の区切りをスラッシュからハイフンに変換
@@ -64,7 +72,7 @@ document.addEventListener("mouseover", (event) => {
         targetTweetImg = closestTweetImg;
     }
 });
-// トリガーキーが押されたときの処理を定義
+// 保存トリガーキーが押されたときの処理を定義
 document.addEventListener("keydown", (event) => {
     // フォームの入力欄（ツイート検索やリプ欄など）でタイピングしている時は動作させないためのガード
     if (event.target.tagName === "INPUT" || event.target.tagName === "TEXTAREA" || event.target.isContentEditable) {
@@ -166,3 +174,35 @@ function findUserID(userNameElement) {
         return "UnknownUser";
     }
 }
+// いいねボタンのトリガーキーが押されたときの処理を定義
+document.addEventListener("keydown", (event) => {
+    // フォームの入力欄（ツイート検索やリプ欄など）でタイピングしている時は動作させないためのガード
+    if (event.target.tagName === "INPUT" || event.target.tagName === "TEXTAREA" || event.target.isContentEditable) {
+        return;
+    }
+    // トリガーキーが押されたときのみ後続処理
+    if (event.key === LIKE_TRIGGER_KEY) {
+        console.log("Kキーが押されました！");
+        event.preventDefault(); // Kキーのデフォルトの動作（ツイートのいいね）を防止
+
+        if (!targetTweet) {
+            console.log("いいね対象のツイートが見つかりませんでした。");
+            return;
+        }
+        const likeButton = targetTweet.querySelector(LIKE_BUTTON_SELECTOR);
+        if (!likeButton) {
+            console.log("いいねボタンが見つかりませんでした。");
+        } else {
+            likeButton.click();
+            console.log("いいねボタンをクリックしました。");
+            return;
+        }
+        const likedButton = targetTweet.querySelector(LIKED_BUTTON_SELECTOR);
+        if (!likedButton) {
+            console.log("いいね済みボタンが見つかりませんでした。");
+        } else {
+            likedButton.click();
+            console.log("いいね済みボタンをクリックしました。");
+        }
+    }
+});
