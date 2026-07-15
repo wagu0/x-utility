@@ -2,6 +2,7 @@
 //todo メディアツイート画面からも正常に画像を保存できるようにする
 //todo メディアが複数存在する場合保存する画像名にナンバリングをつける
 //todo 任意のキー入力でホバーしているツイートに対してブックマークをできるようにする。ツイートを選択していると既存機能でもできるためイベントを阻止する。
+//todo 保存済みの画像をローカルストレージに保存しておき、同じ画像を保存しようとした場合に警告を出すようにする
 
 /** 画像が含まれたツイートを検知するためのセレクタ */
 const IMAGE_TWEET_SELECTOR = '[data-testid="tweetPhoto"]';
@@ -11,6 +12,10 @@ const TWEET_SELECTOR = 'article[data-testid="tweet"]';
 const LIKE_BUTTON_SELECTOR = '[data-testid="like"]';
 /** いいね済みボタンのセレクタ */
 const LIKED_BUTTON_SELECTOR = '[data-testid="unlike"]';
+/** ブックマークボタンのセレクタ */
+const BOOKMARK_BUTTON_SELECTOR = '[data-testid="bookmark"]';
+/** ブックマーク済みボタンのセレクタ */
+const BOOKMARKED_BUTTON_SELECTOR = '[data-testid="removeBookmark"]';
 /** プロフィールページのセレクタ */
 const PROFILE_PAGE_SELECTOR = '[data-testid="User-Name"]';
 /** ツイートのURLに含まれる文字列 */
@@ -31,6 +36,7 @@ let targetTweet = null;
 
 const SAVE_TRIGGER_KEY = "l"; // 画像保存のトリガーキーを定義
 const LIKE_TRIGGER_KEY = "k"; // いいねのトリガーキーを定義
+const BOOKMARK_TRIGGER_KEY = "b"; // ブックマークのトリガーキーを定義
 const IMG_REGEX = /https:\/\/pbs\.twimg\.com\/media\/\w+\.\w+&name=\w+/; // 画像URLの正規表現
 
 
@@ -203,6 +209,39 @@ document.addEventListener("keydown", (event) => {
         } else {
             likedButton.click();
             console.log("いいね済みボタンをクリックしました。");
+        }
+    }
+});
+// ブックマークボタンのトリガーキーが押されたときの処理を定義
+// いいねボタンのトリガーキーが押されたときの処理を定義
+document.addEventListener("keydown", (event) => {
+    // フォームの入力欄（ツイート検索やリプ欄など）でタイピングしている時は動作させないためのガード
+    if (event.target.tagName === "INPUT" || event.target.tagName === "TEXTAREA" || event.target.isContentEditable) {
+        return;
+    }
+    // トリガーキーが押されたときのみ後続処理
+    if (event.key === BOOKMARK_TRIGGER_KEY) {
+        console.log("Bキーが押されました！");
+        event.preventDefault(); // Bキーのデフォルトの動作（ツイートのブックマーク）を防止
+
+        if (!targetTweet) {
+            console.log("ブックマーク対象のツイートが見つかりませんでした。");
+            return;
+        }
+        const bookmarkButton = targetTweet.querySelector(BOOKMARK_BUTTON_SELECTOR);
+        if (!bookmarkButton) {
+            console.log("ブックマークボタンが見つかりませんでした。");
+        } else {
+            bookmarkButton.click();
+            console.log("ブックマークボタンをクリックしました。");
+            return;
+        }
+        const bookmarkedButton = targetTweet.querySelector(BOOKMARKED_BUTTON_SELECTOR);
+        if (!bookmarkedButton) {
+            console.log("ブックマーク済みボタンが見つかりませんでした。");
+        } else {
+            bookmarkedButton.click();
+            console.log("ブックマーク済みボタンをクリックしました。");
         }
     }
 });
