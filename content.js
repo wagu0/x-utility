@@ -25,10 +25,12 @@ const BOOKMARKED_BUTTON_SELECTOR = '[data-testid="removeBookmark"]';
 const RETWEET_BUTTON_SELECTOR = '[data-testid="retweet"]';
 /** リツイート済みボタンのセレクタ */
 const RETWEETED_BUTTON_SELECTOR = '[data-testid="unretweet"]';
-/** プロフィールページのセレクタ */
-const PROFILE_PAGE_SELECTOR = '[data-testid="User-Name"]';
+/** ツイート内のプロフィール情報のセレクタ */
+const TWEET_PROFILE_SELECTOR = '[data-testid="User-Name"]';
 /** ダイレクトメッセージのセレクタ */
 const DM_MENU_SELECTOR = '[data-testid="AppTabBar_DirectMessage_Link"]';
+/** プロフィールページのセレクタ */
+const USER_PROFILE_SELECTOR = '[data-testid="AppTabBar_Profile_Link"]';
 /** ツイートのURLに含まれる文字列 */
 const STATUS = "status";
 /** ツイートの投稿日時を取得するためのセレクタ */
@@ -51,7 +53,18 @@ const LIKE_TRIGGER_KEY = "k"; // いいねのトリガーキーを定義
 const BOOKMARK_TRIGGER_KEY = "b"; // ブックマークのトリガーキーを定義
 const RETWEET_TRIGGER_KEY = "r"; // リツイートのトリガーキーを定義
 const DM_TRIGGER_KEY = "m"; // ダイレクトメッセージのトリガーキーを定義
+const PROFILE_TRIGGER_KEY = "p"; // プロフィールページを開くトリガーキーを定義
 const IMG_REGEX = /https:\/\/pbs\.twimg\.com\/media\/\w+\.\w+&name=\w+/; // 画像URLの正規表現
+
+/** トリガーキーと対応する関数の定義 */
+const shortcutActions = new Map([
+  [SAVE_TRIGGER_KEY, saveImage],
+  [LIKE_TRIGGER_KEY, likeTweet],
+  [BOOKMARK_TRIGGER_KEY, bookmarkTweet],
+  [RETWEET_TRIGGER_KEY, retweetTweet],
+  [DM_TRIGGER_KEY, openDirectMessage],
+  [PROFILE_TRIGGER_KEY, openProfilePage],
+]);
 
 // マウスホバーしているツイートを検出するイベントリスナー
 document.addEventListener("mouseover", (event) => {
@@ -69,7 +82,7 @@ document.addEventListener("mouseover", (event) => {
     console.log("ツイートが画像ツイートです");
     const closestTweetImg = hoveredTweet.querySelector(TWEET_IMAGE_SELECTOR);
     const userNameElement =
-      hoveredTweet.querySelector(PROFILE_PAGE_SELECTOR) || "UnknownUser";
+      hoveredTweet.querySelector(TWEET_PROFILE_SELECTOR) || "UnknownUser";
     const tweetTimeElement = hoveredTweet.querySelector(TWEET_TIME_TAG);
     const tweetTime = tweetTimeElement
       ? tweetTimeElement.getAttribute(TWEET_TIME_DATETIME)
@@ -111,8 +124,9 @@ document.addEventListener("mouseover", (event) => {
   // 画像の有無にかかわらず、ツイートを更新する
   lastHoveredTweet = hoveredTweet;
 });
-// 保存トリガーキーが押されたときの処理を定義
+// キーダウンが発生したときの共通処理
 document.addEventListener("keydown", (event) => {
+  console.log("キーダウンが発生しました。");
   // フォームの入力欄（ツイート検索やリプ欄など）でタイピングしている時は動作させないためのガード
   if (
     event.target.tagName === "INPUT" ||
@@ -121,74 +135,89 @@ document.addEventListener("keydown", (event) => {
   ) {
     return;
   }
-  // トリガーキーが押されたときのみ後続処理
-  if (event.key === SAVE_TRIGGER_KEY) {
-    console.log("Lキーが押されました！");
-    if (hoveredTweetImage === null) {
-      console.log("ツイートの画像が見つかりませんでした。");
-      return;
-    }
-    const targetTweetImage = hoveredTweetImage.querySelector("img");
-
-    event.preventDefault(); // Lキーのデフォルトの動作（ツイートのいいね）を防止
-
-    if (!targetTweetImage) {
-      console.log("保存対象の画像が見つかりませんでした。");
-      return;
-    }
-    console.log("保存対象の画像要素:", targetTweetImage);
-
-    // src属性からURLを取得して、URLをそぎ落としてorigを取得する処理をここに追加
-    const imgSrc = targetTweetImage.getAttribute("src");
-    if (!imgSrc) {
-      console.log("画像のURLが見つかりませんでした。");
-      return;
-    }
-    console.log("画像のURL:", imgSrc);
-
-    // 画像URLからorigを抽出する処理
-    const origUrl = imgSrc.replace(/&name=\w+/, "&name=orig");
-    imageExtension = new URL(origUrl).searchParams.get("format");
-    console.log("画像の拡張子:", imageExtension);
-
-    if (!imageExtension) {
-      console.log("画像の拡張子がURLから取得できませんでした。");
-      return;
-    }
-
-    console.log("orig画像のURL:", origUrl);
-    console.log("chrome.donwloads:", chrome.downloads);
-
-    //service_worker.jsに送信するテスト
-    try {
-      chrome.runtime.sendMessage(
-        {
-          action: "downloadImage",
-          url: origUrl,
-          filename: `${tweetDateForJST}_${userID}.${imageExtension}`,
-        },
-        (response) => {
-          // service_workerからのエラー処理
-          if (chrome.runtime.lastError) {
-            console.error(
-              "chrome.runtime.sendMessageのエラー:",
-              chrome.runtime.lastError,
-            );
-            return;
-          }
-          if (response && response.success) {
-            console.log("画像のダウンロードが成功しました。");
-            showSavingIndicator(); // 保存中のインジケーターを表示
-          } else {
-            console.error("画像のダウンロードに失敗しました。");
-          }
-        },
-      );
-    } catch (error) {
-      console.error("chrome.runtime.sendMessageのエラー:", error);
-    }
+  // Ctrl+Rが押された場合はリツイートのデフォルト動作を行うため、Ctrlキーが押されていない場合のみ処理を行う
+  if (event.ctrlKey && event.key === "r") {
+    return;
   }
+  const action = shortcutActions.get(event.key);
+  if (!action) {
+    return;
+  }
+  console.log(
+    "ショートカットキーが押されました:",
+    event.key,
+    "対応する関数:",
+    action.name,
+  );
+  event.preventDefault(); // トリガーキーのデフォルトの動作を防止
+  action(event); // 対応する関数を実行
 });
+// 保存トリガーキーが押されたときの処理を定義
+function saveImage(event) {
+  if (hoveredTweetImage === null) {
+    console.log("ツイートの画像が見つかりませんでした。");
+    return;
+  }
+  const targetTweetImage = hoveredTweetImage.querySelector("img");
+
+  event.preventDefault(); // Lキーのデフォルトの動作（ツイートのいいね）を防止
+
+  if (!targetTweetImage) {
+    console.log("保存対象の画像が見つかりませんでした。");
+    return;
+  }
+  console.log("保存対象の画像要素:", targetTweetImage);
+
+  // src属性からURLを取得して、URLをそぎ落としてorigを取得する処理をここに追加
+  const imgSrc = targetTweetImage.getAttribute("src");
+  if (!imgSrc) {
+    console.log("画像のURLが見つかりませんでした。");
+    return;
+  }
+  console.log("画像のURL:", imgSrc);
+
+  // 画像URLからorigを抽出する処理
+  const origUrl = imgSrc.replace(/&name=\w+/, "&name=orig");
+  imageExtension = new URL(origUrl).searchParams.get("format");
+  console.log("画像の拡張子:", imageExtension);
+
+  if (!imageExtension) {
+    console.log("画像の拡張子がURLから取得できませんでした。");
+    return;
+  }
+
+  console.log("orig画像のURL:", origUrl);
+  console.log("chrome.donwloads:", chrome.downloads);
+
+  //service_worker.jsに送信するテスト
+  try {
+    chrome.runtime.sendMessage(
+      {
+        action: "downloadImage",
+        url: origUrl,
+        filename: `${tweetDateForJST}_${userID}.${imageExtension}`,
+      },
+      (response) => {
+        // service_workerからのエラー処理
+        if (chrome.runtime.lastError) {
+          console.error(
+            "chrome.runtime.sendMessageのエラー:",
+            chrome.runtime.lastError,
+          );
+          return;
+        }
+        if (response && response.success) {
+          console.log("画像のダウンロードが成功しました。");
+          showSavingIndicator(); // 保存中のインジケーターを表示
+        } else {
+          console.error("画像のダウンロードに失敗しました。");
+        }
+      },
+    );
+  } catch (error) {
+    console.error("chrome.runtime.sendMessageのエラー:", error);
+  }
+}
 /**
  * 保存中のインジケーターを表示
  */
@@ -239,137 +268,93 @@ function findUserID(userNameElement) {
   }
 }
 // いいねボタンのトリガーキーが押されたときの処理を定義
-document.addEventListener("keydown", (event) => {
-  // フォームの入力欄（ツイート検索やリプ欄など）でタイピングしている時は動作させないためのガード
-  if (
-    event.target.tagName === "INPUT" ||
-    event.target.tagName === "TEXTAREA" ||
-    event.target.isContentEditable
-  ) {
+function likeTweet(event) {
+  if (!hoveredTweet) {
+    console.log("いいね対象のツイートが見つかりませんでした。");
     return;
   }
-  // トリガーキーが押されたときのみ後続処理
-  if (event.key === LIKE_TRIGGER_KEY) {
-    console.log("Kキーが押されました！");
-    event.preventDefault(); // Kキーのデフォルトの動作（ツイートのいいね）を防止
-
-    if (!hoveredTweet) {
-      console.log("いいね対象のツイートが見つかりませんでした。");
-      return;
-    }
-    const likeButton = hoveredTweet.querySelector(LIKE_BUTTON_SELECTOR);
-    if (!likeButton) {
-      console.log("いいねボタンが見つかりませんでした。");
-    } else {
-      likeButton.click();
-      console.log("いいねボタンをクリックしました。");
-      return;
-    }
-    const likedButton = hoveredTweet.querySelector(LIKED_BUTTON_SELECTOR);
-    if (!likedButton) {
-      console.log("いいね済みボタンが見つかりませんでした。");
-    } else {
-      likedButton.click();
-      console.log("いいね済みボタンをクリックしました。");
-    }
+  const likeButton = hoveredTweet.querySelector(LIKE_BUTTON_SELECTOR);
+  if (!likeButton) {
+    console.log("いいねボタンが見つかりませんでした。");
+  } else {
+    likeButton.click();
+    console.log("いいねボタンをクリックしました。");
+    return;
   }
-});
+  const likedButton = hoveredTweet.querySelector(LIKED_BUTTON_SELECTOR);
+  if (!likedButton) {
+    console.log("いいね済みボタンが見つかりませんでした。");
+  } else {
+    likedButton.click();
+    console.log("いいね済みボタンをクリックしました。");
+  }
+}
 // ブックマークボタンのトリガーキーが押されたときの処理を定義
-document.addEventListener("keydown", (event) => {
+function bookmarkTweet(event) {
   // フォームの入力欄（ツイート検索やリプ欄など）でタイピングしている時は動作させないためのガード
-  if (
-    event.target.tagName === "INPUT" ||
-    event.target.tagName === "TEXTAREA" ||
-    event.target.isContentEditable
-  ) {
+  if (!hoveredTweet) {
+    console.log("ブックマーク対象のツイートが見つかりませんでした。");
     return;
   }
-  // トリガーキーが押されたときのみ後続処理
-  if (event.key === BOOKMARK_TRIGGER_KEY) {
-    console.log("Bキーが押されました！");
-    event.preventDefault(); // Bキーのデフォルトの動作（ツイートのブックマーク）を防止
-
-    if (!hoveredTweet) {
-      console.log("ブックマーク対象のツイートが見つかりませんでした。");
-      return;
-    }
-    const bookmarkButton = hoveredTweet.querySelector(BOOKMARK_BUTTON_SELECTOR);
-    if (!bookmarkButton) {
-      console.log("ブックマークボタンが見つかりませんでした。");
-    } else {
-      bookmarkButton.click();
-      console.log("ブックマークボタンをクリックしました。");
-      return;
-    }
-    const bookmarkedButton = hoveredTweet.querySelector(
-      BOOKMARKED_BUTTON_SELECTOR,
-    );
-    if (!bookmarkedButton) {
-      console.log("ブックマーク済みボタンが見つかりませんでした。");
-    } else {
-      bookmarkedButton.click();
-      console.log("ブックマーク済みボタンをクリックしました。");
-    }
+  const bookmarkButton = hoveredTweet.querySelector(BOOKMARK_BUTTON_SELECTOR);
+  if (!bookmarkButton) {
+    console.log("ブックマークボタンが見つかりませんでした。");
+  } else {
+    bookmarkButton.click();
+    console.log("ブックマークボタンをクリックしました。");
+    return;
   }
-});
+  const bookmarkedButton = hoveredTweet.querySelector(
+    BOOKMARKED_BUTTON_SELECTOR,
+  );
+  if (!bookmarkedButton) {
+    console.log("ブックマーク済みボタンが見つかりませんでした。");
+  } else {
+    bookmarkedButton.click();
+    console.log("ブックマーク済みボタンをクリックしました。");
+  }
+}
 //リツイートボタンのトリガーキーが押されたときの処理を定義
-document.addEventListener("keydown", (event) => {
-  // フォームの入力欄（ツイート検索やリプ欄など）でタイピングしている時は動作させないためのガード
-  if (
-    event.target.tagName === "INPUT" ||
-    event.target.tagName === "TEXTAREA" ||
-    event.target.isContentEditable
-  ) {
+function retweetTweet(event) {
+  if (!hoveredTweet) {
+    console.log("リツイート対象のツイートが見つかりませんでした。");
     return;
   }
-  // トリガーキーが押されたときのみ後続処理
-  // Ctrl Rが押された場合はリツイートのデフォルト動作を行うため、Ctrlキーが押されていない場合のみ処理を行う
-  if (event.key === RETWEET_TRIGGER_KEY && !event.ctrlKey) {
-    console.log("Rキーが押されました！");
-    event.preventDefault(); // Rキーのデフォルトの動作（ツイートのリツイート）を防止
-    if (!hoveredTweet) {
-      console.log("リツイート対象のツイートが見つかりませんでした。");
-      return;
-    }
-    const retweetButton = hoveredTweet.querySelector(RETWEET_BUTTON_SELECTOR);
-    if (!retweetButton) {
-      console.log("リツイートボタンが見つかりませんでした。");
-    } else {
-      retweetButton.click();
-      console.log("リツイートボタンをクリックしました。");
-      return;
-    }
-    const retweetedButton = hoveredTweet.querySelector(
-      RETWEETED_BUTTON_SELECTOR,
-    );
-    if (!retweetedButton) {
-      console.log("リツイート済みボタンが見つかりませんでした。");
-    } else {
-      retweetedButton.click();
-      console.log("リツイート済みボタンをクリックしました。");
-    }
+  const retweetButton = hoveredTweet.querySelector(RETWEET_BUTTON_SELECTOR);
+  if (!retweetButton) {
+    console.log("リツイートボタンが見つかりませんでした。");
+  } else {
+    retweetButton.click();
+    console.log("リツイートボタンをクリックしました。");
+    return;
   }
-});
+  const retweetedButton = hoveredTweet.querySelector(RETWEETED_BUTTON_SELECTOR);
+  if (!retweetedButton) {
+    console.log("リツイート済みボタンが見つかりませんでした。");
+  } else {
+    retweetedButton.click();
+    console.log("リツイート済みボタンをクリックしました。");
+  }
+}
 // ダイレクトメッセージのトリガーキーが押されたときの処理を定義
-document.addEventListener("keydown", (event) => {
-  // フォームの入力欄（ツイート検索やリプ欄など）でタイピングしている時は動作させないためのガード
-  if (
-    event.target.tagName === "INPUT" ||
-    event.target.tagName === "TEXTAREA" ||
-    event.target.isContentEditable
-  ) {
+function openDirectMessage(event) {
+  const dmButton = document.querySelector(DM_MENU_SELECTOR);
+  if (!dmButton) {
+    console.log("ダイレクトメッセージボタンが見つかりませんでした。");
+  } else {
+    dmButton.click();
+    console.log("ダイレクトメッセージボタンをクリックしました。");
     return;
   }
-  // トリガーキーが押されたときのみ後続処理
-  if (event.key === DM_TRIGGER_KEY) {
-    event.preventDefault();
-    const dmButton = document.querySelector(DM_MENU_SELECTOR);
-    if (!dmButton) {
-      console.log("ダイレクトメッセージボタンが見つかりませんでした。");
-    } else {
-      dmButton.click();
-      console.log("ダイレクトメッセージボタンをクリックしました。");
-      return;
-    }
+}
+// プロフィールページを開く関数
+function openProfilePage() {
+  const profileButton = document.querySelector(USER_PROFILE_SELECTOR);
+  if (!profileButton) {
+    console.log("プロフィールページボタンが見つかりませんでした。");
+  } else {
+    profileButton.click();
+    console.log("プロフィールページボタンをクリックしました。");
+    return;
   }
-});
+}
