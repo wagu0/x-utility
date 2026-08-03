@@ -1,7 +1,8 @@
 //todo 画像保存場所をユーザーが選択できるようにする
 //todo メディアツイート画面からも正常に画像を保存できるようにする
-//todo メディアが複数存在する場合も正常に画像を保存およびファイル名にナンバリングをつける
+//todo 画像が複数ある際にファイル名にナンバリングをつける
 //todo 保存済みの画像をローカルストレージに保存しておき、同じ画像を保存しようとした場合に警告を出すようにする
+//todo デバッグをしやすいようにインスタンスが増殖するのを対策したい
 /**
  * todo 画像を開いたときの矢印ボタンを任意のトリガーキーで操作できるようにする
  * data-testidは振られていないため、aria-labelを使って矢印ボタンを取得する予定
@@ -36,17 +37,10 @@ const STATUS = "status";
 /** ツイートの投稿日時を取得するためのセレクタ */
 const TWEET_TIME_TAG = "time";
 const TWEET_TIME_DATETIME = "datetime";
-/** ホバーしているツイート内の画像を保存する変数 */
-let hoveredTweetImage = null;
-/** 画像の拡張子を保存する変数 */
-let imageExtension = null;
-/** ユーザーIDを保存する変数 */
-let userID = "UnknownUser";
-/** ツイートの投稿日時を保存する変数 */
-let tweetDateForJST = "UnknownDate";
 /** ツイート要素を保存する変数 */
 let hoveredTweet = null;
-let lastHoveredTweet = null;
+/** ツイート内の画像要素を保存する変数 */
+let hoveredTweetImageElement = null;
 
 const SAVE_TRIGGER_KEY = "l"; // 画像保存のトリガーキーを定義
 const LIKE_TRIGGER_KEY = "k"; // いいねのトリガーキーを定義
@@ -68,61 +62,22 @@ const shortcutActions = new Map([
 
 // マウスホバーしているツイートを検出するイベントリスナー
 document.addEventListener("mouseover", (event) => {
-  hoveredTweet = event.target.closest(TWEET_SELECTOR);
-  if (!hoveredTweet) {
-    return;
+  // ホバーしているツイートを取得
+  const targetTweet = event.target.closest(TWEET_SELECTOR);
+  // ツイート要素下をホバーしている場合のみ処理
+  if (targetTweet) {
+    hoveredTweet = targetTweet;
   } else {
-    console.log("ツイートがあります");
-  }
-  if (hoveredTweet === lastHoveredTweet) {
     return;
   }
-  // 画像を含むツイートの場合の処理
-  if (hoveredTweet.querySelector(TWEET_IMAGE_SELECTOR)) {
-    console.log("ツイートが画像ツイートです");
-    const closestTweetImg = hoveredTweet.querySelector(TWEET_IMAGE_SELECTOR);
-    const userNameElement =
-      hoveredTweet.querySelector(TWEET_PROFILE_SELECTOR) || "UnknownUser";
-    const tweetTimeElement = hoveredTweet.querySelector(TWEET_TIME_TAG);
-    const tweetTime = tweetTimeElement
-      ? tweetTimeElement.getAttribute(TWEET_TIME_DATETIME)
-      : "UnknownTime";
-    const tweetTimeforJST = tweetTime
-      ? new Date(tweetTime).toLocaleString("ja-JP")
-      : "UnknownTime";
-    tweetDateForJST = tweetTimeforJST
-      ? tweetTimeforJST.split(" ")[0]
-      : "UnknownDate";
-    tweetDateForJST = tweetDateForJST.replace(/\//g, "-"); // ファイル名に使用するため、日付の区切りをスラッシュからハイフンに変換
-
-    // ツイートが保存されているか確認し、保存されていない場合は新たに保存する
-    if (closestTweetImg) {
-      if (hoveredTweetImage === closestTweetImg) {
-        console.log("検知済みの画像ツイート");
-        return;
-      }
-      // 保存された画像ツイートの出力
-      userID = findUserID(userNameElement);
-      console.log("TweetImg hovered:", closestTweetImg);
-      console.log("ユーザー名:", userNameElement);
-      console.log("ユーザー名テキスト:", userNameElement.textContent);
-      console.log("ユーザーID:", userID);
-      console.log("ツイートの投稿日時:", tweetTime);
-      console.log("ツイートの投稿日時（日本時間）:", tweetTimeforJST);
-      console.log("ツイートの投稿日時（日本時間、日時のみ）:", tweetDateForJST);
-      console.log(
-        "ファイル名の例" + `${tweetDateForJST}_${userID}.${imageExtension}`,
-      );
-
-      // 保存された画像ツイートを更新
-      hoveredTweetImage = closestTweetImg;
-    }
+  console.log("ツイートがホバーされました:");
+  // 画像がホバーされている場合ホバー中の画像を取得する
+  const targetImage = event.target.closest(TWEET_IMAGE_SELECTOR);
+  if (targetImage) {
+    hoveredTweetImageElement = targetImage;
   } else {
-    // ツイートが画像ツイートでない場合の処理
-    hoveredTweetImage = null;
+    hoveredTweetImageElement = null;
   }
-  // 画像の有無にかかわらず、ツイートを更新する
-  lastHoveredTweet = hoveredTweet;
 });
 // キーダウンが発生したときの共通処理
 document.addEventListener("keydown", (event) => {
@@ -153,69 +108,100 @@ document.addEventListener("keydown", (event) => {
   action(event); // 対応する関数を実行
 });
 // 保存トリガーキーが押されたときの処理を定義
-function saveImage(event) {
-  if (hoveredTweetImage === null) {
-    console.log("ツイートの画像が見つかりませんでした。");
+function saveImage() {
+  // 画像を含むツイートの場合の処理
+  if (!hoveredTweet || !hoveredTweetImageElement) {
+    console.log("保存対象のツイートまたは画像が見つかりませんでした。");
     return;
   }
-  const targetTweetImage = hoveredTweetImage.querySelector("img");
+  if (hoveredTweetImageElement) {
+    // ユーザーIDとツイートの投稿日時を保持する変数
+    let userID = "UnknownUser";
+    let tweetDateForJST = "UnknownDate";
+    const userNameElement =
+      hoveredTweet.querySelector(TWEET_PROFILE_SELECTOR) || "UnknownUser";
+    const tweetTimeElement = hoveredTweet.querySelector(TWEET_TIME_TAG);
+    const tweetTime = tweetTimeElement
+      ? tweetTimeElement.getAttribute(TWEET_TIME_DATETIME)
+      : "UnknownTime";
+    const tweetTimeforJST = tweetTime
+      ? new Date(tweetTime).toLocaleString("ja-JP")
+      : "UnknownTime";
+    tweetDateForJST = tweetTimeforJST
+      ? tweetTimeforJST.split(" ")[0]
+      : "UnknownDate";
+    tweetDateForJST = tweetDateForJST.replace(/\//g, "-"); // ファイル名に使用するため、日付の区切りをスラッシュからハイフンに変換
+    // 画像要素からimgタグ部分を取得
+    const targetTweetImage = hoveredTweetImageElement.querySelector("img");
 
-  event.preventDefault(); // Lキーのデフォルトの動作（ツイートのいいね）を防止
+    if (!targetTweetImage) {
+      console.log("保存対象の画像が見つかりませんでした。");
+      return;
+    }
+    console.log("保存対象の画像要素:", targetTweetImage);
 
-  if (!targetTweetImage) {
-    console.log("保存対象の画像が見つかりませんでした。");
-    return;
-  }
-  console.log("保存対象の画像要素:", targetTweetImage);
+    // src属性からURLを取得して、URLをそぎ落としてorigを取得する処理をここに追加
+    const imgSrc = targetTweetImage.getAttribute("src");
+    if (!imgSrc) {
+      console.log("画像のURLが見つかりませんでした。");
+      return;
+    }
+    console.log("画像のURL:", imgSrc);
 
-  // src属性からURLを取得して、URLをそぎ落としてorigを取得する処理をここに追加
-  const imgSrc = targetTweetImage.getAttribute("src");
-  if (!imgSrc) {
-    console.log("画像のURLが見つかりませんでした。");
-    return;
-  }
-  console.log("画像のURL:", imgSrc);
+    // 画像URLからorigを抽出する処理
+    const origUrl = imgSrc.replace(/&name=\w+/, "&name=orig");
+    const imageExtension = new URL(origUrl).searchParams.get("format");
+    console.log("画像の拡張子:", imageExtension);
 
-  // 画像URLからorigを抽出する処理
-  const origUrl = imgSrc.replace(/&name=\w+/, "&name=orig");
-  imageExtension = new URL(origUrl).searchParams.get("format");
-  console.log("画像の拡張子:", imageExtension);
-
-  if (!imageExtension) {
-    console.log("画像の拡張子がURLから取得できませんでした。");
-    return;
-  }
-
-  console.log("orig画像のURL:", origUrl);
-  console.log("chrome.donwloads:", chrome.downloads);
-
-  //service_worker.jsに送信するテスト
-  try {
-    chrome.runtime.sendMessage(
-      {
-        action: "downloadImage",
-        url: origUrl,
-        filename: `${tweetDateForJST}_${userID}.${imageExtension}`,
-      },
-      (response) => {
-        // service_workerからのエラー処理
-        if (chrome.runtime.lastError) {
-          console.error(
-            "chrome.runtime.sendMessageのエラー:",
-            chrome.runtime.lastError,
-          );
-          return;
-        }
-        if (response && response.success) {
-          console.log("画像のダウンロードが成功しました。");
-          showSavingIndicator(); // 保存中のインジケーターを表示
-        } else {
-          console.error("画像のダウンロードに失敗しました。");
-        }
-      },
+    if (!imageExtension) {
+      console.log("画像の拡張子がURLから取得できませんでした。");
+      return;
+    }
+    // 保存された画像ツイートの情報の出力
+    userID = findUserID(userNameElement);
+    console.log("TweetImg hovered:", hoveredTweetImageElement);
+    console.log("ユーザー名:", userNameElement);
+    console.log("ユーザー名テキスト:", userNameElement.textContent);
+    console.log("ユーザーID:", userID);
+    console.log("ツイートの投稿日時:", tweetTime);
+    console.log("ツイートの投稿日時（日本時間）:", tweetTimeforJST);
+    console.log("ツイートの投稿日時（日本時間、日時のみ）:", tweetDateForJST);
+    console.log(
+      "ファイル名の例" + `${tweetDateForJST}_${userID}.${imageExtension}`,
     );
-  } catch (error) {
-    console.error("chrome.runtime.sendMessageのエラー:", error);
+
+    console.log("orig画像のURL:", origUrl);
+    //service_worker.jsに送信するテスト
+    try {
+      chrome.runtime.sendMessage(
+        {
+          action: "downloadImage",
+          url: origUrl,
+          filename: `${tweetDateForJST}_${userID}.${imageExtension}`,
+        },
+        (response) => {
+          // service_workerからのエラー処理
+          if (chrome.runtime.lastError) {
+            console.error(
+              "chrome.runtime.sendMessageのエラー:",
+              chrome.runtime.lastError,
+            );
+            return;
+          }
+          if (response && response.success) {
+            console.log("画像のダウンロードが成功しました。");
+            showSavingIndicator(); // 保存中のインジケーターを表示
+          } else {
+            console.error("画像のダウンロードに失敗しました。");
+          }
+        },
+      );
+    } catch (error) {
+      console.error("chrome.runtime.sendMessageのエラー:", error);
+    }
+  } else {
+    console.log("ホバー中のツイートに画像が含まれていません。");
+    return;
   }
 }
 /**
