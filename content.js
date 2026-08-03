@@ -109,6 +109,7 @@ document.addEventListener("keydown", (event) => {
 });
 // 保存トリガーキーが押されたときの処理を定義
 function saveImage() {
+  let fileName;
   // 画像を含むツイートの場合の処理
   if (!hoveredTweet || !hoveredTweetImageElement) {
     console.log("保存対象のツイートまたは画像が見つかりませんでした。");
@@ -157,6 +158,26 @@ function saveImage() {
       console.log("画像の拡張子がURLから取得できませんでした。");
       return;
     }
+    // ここから画像が複数あった際のナンバリング処理
+    const tweetImageElements =
+      hoveredTweet.querySelectorAll(TWEET_IMAGE_SELECTOR);
+    const tweetImageCount = tweetImageElements.length;
+    let imageCount;
+    tweetImageElements.forEach((imageElement, index) => {
+      index += 1; // インデックスを1から始めるために1を加算
+      if (imageElement == hoveredTweetImageElement) {
+        imageCount = index;
+        console.log("ホバー中の画像のインデックス:", imageCount);
+      }
+    });
+    if (tweetImageCount === 1) {
+      fileName = `${tweetDateForJST}_${userID}.${imageExtension}`;
+      console.log("画像が1枚の場合のファイル名:");
+    } else {
+      fileName = `${tweetDateForJST}_${userID}_${imageCount}.${imageExtension}`;
+      console.log("画像が複数枚の場合のファイル名:");
+    }
+
     // 保存された画像ツイートの情報の出力
     userID = findUserID(userNameElement);
     console.log("TweetImg hovered:", hoveredTweetImageElement);
@@ -167,9 +188,9 @@ function saveImage() {
     console.log("ツイートの投稿日時（日本時間）:", tweetTimeforJST);
     console.log("ツイートの投稿日時（日本時間、日時のみ）:", tweetDateForJST);
     console.log(
-      "ファイル名の例" + `${tweetDateForJST}_${userID}.${imageExtension}`,
+      "ファイル名の例" +
+        `${tweetDateForJST}_${userID}_${imageCount}.${imageExtension}`,
     );
-
     console.log("orig画像のURL:", origUrl);
     //service_worker.jsに送信するテスト
     try {
@@ -177,7 +198,7 @@ function saveImage() {
         {
           action: "downloadImage",
           url: origUrl,
-          filename: `${tweetDateForJST}_${userID}.${imageExtension}`,
+          filename: fileName,
         },
         (response) => {
           // service_workerからのエラー処理
