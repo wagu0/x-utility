@@ -1,6 +1,5 @@
 //todo 画像保存場所をユーザーが選択できるようにする
 //todo メディアツイート画面からも正常に画像を保存できるようにする
-//todo 画像が複数ある際にファイル名にナンバリングをつける
 //todo 保存済みの画像をローカルストレージに保存しておき、同じ画像を保存しようとした場合に警告を出すようにする
 //todo デバッグをしやすいようにインスタンスが増殖するのを対策したい
 /**
@@ -170,6 +169,8 @@ function saveImage() {
         console.log("ホバー中の画像のインデックス:", imageCount);
       }
     });
+    // ユーザーIDを取得する関数を呼び出す
+    userID = findUserID(userNameElement);
     if (tweetImageCount === 1) {
       fileName = `${tweetDateForJST}_${userID}.${imageExtension}`;
       console.log("画像が1枚の場合のファイル名:");
@@ -179,7 +180,6 @@ function saveImage() {
     }
 
     // 保存された画像ツイートの情報の出力
-    userID = findUserID(userNameElement);
     console.log("TweetImg hovered:", hoveredTweetImageElement);
     console.log("ユーザー名:", userNameElement);
     console.log("ユーザー名テキスト:", userNameElement.textContent);
@@ -187,12 +187,13 @@ function saveImage() {
     console.log("ツイートの投稿日時:", tweetTime);
     console.log("ツイートの投稿日時（日本時間）:", tweetTimeforJST);
     console.log("ツイートの投稿日時（日本時間、日時のみ）:", tweetDateForJST);
-    console.log(
-      "ファイル名の例" +
-        `${tweetDateForJST}_${userID}_${imageCount}.${imageExtension}`,
-    );
     console.log("orig画像のURL:", origUrl);
     //service_worker.jsに送信するテスト
+    console.log(
+      "ファイル名の例(各変数別々で呼び出し)" +
+        `${tweetDateForJST}_${userID}_${imageCount}.${imageExtension}`,
+    );
+    console.log("fileName", fileName);
     try {
       chrome.runtime.sendMessage(
         {
