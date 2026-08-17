@@ -8,7 +8,6 @@
  * aria-label="前のスライド"
  * aria-label="次のスライド"
  */
-
 /** 画像が含まれたツイートを検知するためのセレクタ */
 const TWEET_IMAGE_SELECTOR = '[data-testid="tweetPhoto"]';
 /** ツイートのセレクタ */
