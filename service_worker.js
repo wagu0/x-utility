@@ -4,9 +4,6 @@
 const DOWNLOAD_FOLDER = "X_Images";
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "downloadImage") {
-    console.log("画像ダウンロード要求を受信");
-    console.log("URL:", message.url);
-    console.log("ファイル名:", message.filename);
     // ダウンロードAPIを使用して画像をダウンロード
     chrome.downloads.download(
       {

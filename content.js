@@ -45,11 +45,11 @@ const shortcutKeyMap = new Map([]);
 /** action名と関数名を保持するMap */
 const actionMap = new Map([
   ["saveImage", saveImage],
-  // ["likeTweet", likeTweet],
-  // ["bookmarkTweet", bookmarkTweet],
-  // ["retweetTweet", retweetTweet],
-  // ["openDirectMessage", openDirectMessage],
-  // ["openProfilePage", openProfilePage],
+  ["likeTweet", likeTweet],
+  ["bookmarkTweet", bookmarkTweet],
+  ["retweetTweet", retweetTweet],
+  ["openDirectMessage", openDirectMessage],
+  ["openProfilePage", openProfilePage],
 ]);
 // 初期処理
 getShortcutKey();
@@ -60,7 +60,6 @@ function getShortcutKey() {
     for (const [action, key] of Object.entries(items)) {
       shortcutKeyMap.set(key, action);
     }
-    console.log(shortcutKeyMap);
   });
 }
 
@@ -74,7 +73,6 @@ document.addEventListener("mouseover", (event) => {
   } else {
     return;
   }
-  console.log("ツイートがホバーされました:");
   // 画像がホバーされている場合ホバー中の画像を取得する
   const targetImage = event.target.closest(TWEET_IMAGE_SELECTOR);
   if (targetImage) {
@@ -85,7 +83,6 @@ document.addEventListener("mouseover", (event) => {
 });
 // キーダウンが発生したときの共通処理
 document.addEventListener("keydown", (event) => {
-  console.log("キーダウンが発生しました。");
   // フォームの入力欄（ツイート検索やリプ欄など）でタイピングしている時は動作させないためのガード
   if (
     event.target.tagName === "INPUT" ||
@@ -100,21 +97,11 @@ document.addEventListener("keydown", (event) => {
   }
   // 押されたキーに対応するactuion名を取得
   const actionName = shortcutKeyMap.get(event.key.toUpperCase());
-  console.log("押されたキー:", event.key.toUpperCase());
-  console.log("押されたキーに対応するaction名:", actionName);
   // action名に対応する関数を取得
   const action = actionMap.get(actionName);
   if (!action) {
-    console.log("対応するアクションが見つかりませんでした。");
     return;
   }
-
-  console.log(
-    "ショートカットキーが押されました:",
-    event.key,
-    "対応する関数:",
-    action,
-  );
   event.preventDefault(); // トリガーキーのデフォルトの動作を防止
   action(event); // 対応する関数を実行
 });
@@ -123,7 +110,11 @@ function saveImage() {
   let fileName;
   // 画像を含むツイートの場合の処理
   if (!hoveredTweet || !hoveredTweetImageElement) {
-    console.log("保存対象のツイートまたは画像が見つかりませんでした。");
+    console.warn("保存対象のツイートまたは画像が見つかりませんでした。");
+    return;
+  }
+  // ツイートに画像が含まれていない場合の処理
+  if (!hoveredTweetImageElement) {
     return;
   }
   if (hoveredTweetImageElement) {
@@ -147,26 +138,22 @@ function saveImage() {
     const targetTweetImage = hoveredTweetImageElement.querySelector("img");
 
     if (!targetTweetImage) {
-      console.log("保存対象の画像が見つかりませんでした。");
+      console.warn("保存対象の画像が見つかりませんでした。");
       return;
     }
-    console.log("保存対象の画像要素:", targetTweetImage);
 
     // src属性からURLを取得して、URLをそぎ落としてorigを取得する処理をここに追加
     const imgSrc = targetTweetImage.getAttribute("src");
     if (!imgSrc) {
-      console.log("画像のURLが見つかりませんでした。");
+      console.warn("画像のURLが見つかりませんでした。");
       return;
     }
-    console.log("画像のURL:", imgSrc);
-
     // 画像URLからorigを抽出する処理
     const origUrl = imgSrc.replace(/&name=\w+/, "&name=orig");
     const imageExtension = new URL(origUrl).searchParams.get("format");
-    console.log("画像の拡張子:", imageExtension);
 
     if (!imageExtension) {
-      console.log("画像の拡張子がURLから取得できませんでした。");
+      console.warn("画像の拡張子がURLから取得できませんでした。");
       return;
     }
     // ここから画像が複数あった際のナンバリング処理
@@ -178,34 +165,18 @@ function saveImage() {
       index += 1; // インデックスを1から始めるために1を加算
       if (imageElement == hoveredTweetImageElement) {
         imageCount = index;
-        console.log("ホバー中の画像のインデックス:", imageCount);
       }
     });
     // ユーザーIDを取得する関数を呼び出す
     userID = findUserID(userNameElement);
+    // 画像が1枚の場合と複数枚の場合でファイル名を分ける
     if (tweetImageCount === 1) {
       fileName = `${tweetDateForJST}_${userID}.${imageExtension}`;
-      console.log("画像が1枚の場合のファイル名:");
     } else {
       fileName = `${tweetDateForJST}_${userID}_${imageCount}.${imageExtension}`;
-      console.log("画像が複数枚の場合のファイル名:");
     }
 
-    // 保存された画像ツイートの情報の出力
-    console.log("TweetImg hovered:", hoveredTweetImageElement);
-    console.log("ユーザー名:", userNameElement);
-    console.log("ユーザー名テキスト:", userNameElement.textContent);
-    console.log("ユーザーID:", userID);
-    console.log("ツイートの投稿日時:", tweetTime);
-    console.log("ツイートの投稿日時（日本時間）:", tweetTimeforJST);
-    console.log("ツイートの投稿日時（日本時間、日時のみ）:", tweetDateForJST);
-    console.log("orig画像のURL:", origUrl);
     //service_worker.jsに送信するテスト
-    console.log(
-      "ファイル名の例(各変数別々で呼び出し)" +
-        `${tweetDateForJST}_${userID}_${imageCount}.${imageExtension}`,
-    );
-    console.log("fileName", fileName);
     try {
       chrome.runtime.sendMessage(
         {
@@ -223,7 +194,6 @@ function saveImage() {
             return;
           }
           if (response && response.success) {
-            console.log("画像のダウンロードが成功しました。");
             showSavingIndicator(); // 保存中のインジケーターを表示
           } else {
             console.error("画像のダウンロードに失敗しました。");
@@ -233,9 +203,6 @@ function saveImage() {
     } catch (error) {
       console.error("chrome.runtime.sendMessageのエラー:", error);
     }
-  } else {
-    console.log("ホバー中のツイートに画像が含まれていません。");
-    return;
   }
 }
 /**
@@ -276,105 +243,88 @@ function showSavingIndicator() {
 // 現状aタグのhrefの1個目と2個目が/ユーザー名となっているため1個目のaタグのhrefからユーザーIDを取得する想定
 function findUserID(userNameElement) {
   const links = userNameElement.querySelectorAll("a");
-  console.log("ユーザー名内のリンク:", links);
 
   if (links.length > 0) {
     const userID = links[0].getAttribute("href").replace("/", ""); // 最初のaタグのhrefからユーザーIDを抽出
-    console.log("ユーザーID:", userID);
     return userID;
   } else {
-    console.log("ユーザーIDが見つかりませんでした。");
+    // aタグが見つからない場合の処理
     return "UnknownUser";
   }
 }
 // いいねボタンのトリガーキーが押されたときの処理を定義
 function likeTweet(event) {
+  // ツイートが見つからない場合の処理
   if (!hoveredTweet) {
-    console.log("いいね対象のツイートが見つかりませんでした。");
     return;
   }
   const likeButton = hoveredTweet.querySelector(LIKE_BUTTON_SELECTOR);
-  if (!likeButton) {
-    console.log("いいねボタンが見つかりませんでした。");
-  } else {
+  if (likeButton) {
     likeButton.click();
-    console.log("いいねボタンをクリックしました。");
     return;
   }
   const likedButton = hoveredTweet.querySelector(LIKED_BUTTON_SELECTOR);
   if (!likedButton) {
-    console.log("いいね済みボタンが見つかりませんでした。");
-  } else {
-    likedButton.click();
-    console.log("いいね済みボタンをクリックしました。");
+    console.warn("いいね関連のボタンが見つかりませんでした。");
+    return;
   }
+  likedButton.click();
 }
 // ブックマークボタンのトリガーキーが押されたときの処理を定義
 function bookmarkTweet(event) {
   // フォームの入力欄（ツイート検索やリプ欄など）でタイピングしている時は動作させないためのガード
+  // ツイートが見つからない場合の処理
   if (!hoveredTweet) {
-    console.log("ブックマーク対象のツイートが見つかりませんでした。");
     return;
   }
   const bookmarkButton = hoveredTweet.querySelector(BOOKMARK_BUTTON_SELECTOR);
-  if (!bookmarkButton) {
-    console.log("ブックマークボタンが見つかりませんでした。");
-  } else {
+  if (bookmarkButton) {
     bookmarkButton.click();
-    console.log("ブックマークボタンをクリックしました。");
     return;
   }
   const bookmarkedButton = hoveredTweet.querySelector(
     BOOKMARKED_BUTTON_SELECTOR,
   );
   if (!bookmarkedButton) {
-    console.log("ブックマーク済みボタンが見つかりませんでした。");
-  } else {
-    bookmarkedButton.click();
-    console.log("ブックマーク済みボタンをクリックしました。");
+    console.warn("ブックマーク関連のボタンが見つかりませんでした。");
+    return;
   }
+  bookmarkedButton.click();
 }
 //リツイートボタンのトリガーキーが押されたときの処理を定義
 function retweetTweet(event) {
+  // ツイートが見つからない場合の処理
   if (!hoveredTweet) {
-    console.log("リツイート対象のツイートが見つかりませんでした。");
     return;
   }
   const retweetButton = hoveredTweet.querySelector(RETWEET_BUTTON_SELECTOR);
-  if (!retweetButton) {
-    console.log("リツイートボタンが見つかりませんでした。");
-  } else {
+  if (retweetButton) {
     retweetButton.click();
-    console.log("リツイートボタンをクリックしました。");
     return;
   }
   const retweetedButton = hoveredTweet.querySelector(RETWEETED_BUTTON_SELECTOR);
   if (!retweetedButton) {
-    console.log("リツイート済みボタンが見つかりませんでした。");
-  } else {
-    retweetedButton.click();
-    console.log("リツイート済みボタンをクリックしました。");
+    console.warn("リツイート済みボタンが見つかりませんでした。");
+    return;
   }
+  retweetedButton.click();
 }
 // ダイレクトメッセージのトリガーキーが押されたときの処理を定義
 function openDirectMessage(event) {
   const dmButton = document.querySelector(DM_MENU_SELECTOR);
   if (!dmButton) {
-    console.log("ダイレクトメッセージボタンが見つかりませんでした。");
-  } else {
-    dmButton.click();
-    console.log("ダイレクトメッセージボタンをクリックしました。");
+    console.warn("ダイレクトメッセージのボタンが見つかりませんでした。");
     return;
   }
+  dmButton.click();
 }
 // プロフィールページを開く関数
 function openProfilePage() {
   const profileButton = document.querySelector(USER_PROFILE_SELECTOR);
   if (!profileButton) {
-    console.log("プロフィールページボタンが見つかりませんでした。");
-  } else {
-    profileButton.click();
-    console.log("プロフィールページボタンをクリックしました。");
+    console.warn("プロフィールページのボタンが見つかりませんでした。");
     return;
   }
+  profileButton.click();
+  return;
 }
