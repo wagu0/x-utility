@@ -16,7 +16,6 @@ function setUpRecordButton() {
       startRecording(shortcutItem);
       getRecordingShortcutItem();
     });
-    const shortcutItem = shortcutButton.closest(SHORTCUT_ITEM_CLASS);
   }
 }
 // ショートカットのレコードが開始されたら該当のshortcutItemにis-recordingクラスを追加する
@@ -25,7 +24,7 @@ function startRecording(shortcutItem) {
 }
 // キーダウンイベント
 document.addEventListener("keydown", (event) => {
-  targetShortcutItem = getRecordingShortcutItem();
+  const targetShortcutItem = getRecordingShortcutItem();
   if (!targetShortcutItem) {
     return;
   }
