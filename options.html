@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="options.css" />
+    <script src="options.js" defer></script>
+    <title>Shortcut Settings</title>
+  </head>
+
+  <body>
+    <main class="settings">
+      <header class="settings-header">
+        <h1 class="title">Keyboard shortcuts</h1>
+
+        <p class="description">
+          拡張機能で使用するショートカットキーを設定します。
+        </p>
+      </header>
+
+      <section class="shortcut-list">
+        <!-- Save image -->
+        <div class="shortcut-item" data-action="saveImage">
+          <div class="shortcut-info">
+            <p class="shortcut-name">Save image</p>
+
+            <p class="shortcut-description">ホバーしている画像を保存</p>
+          </div>
+
+          <div class="shortcut-controls">
+            <div class="key">L</div>
+
+            <div class="record-wrapper">
+              <button class="record-button" type="button">
+                Record shortcut
+              </button>
+
+              <div class="tooltip">
+                クリックしたあと、設定したいキーを押してください
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--
+        今後追加するときはこれを複製するだけ
+
+      <div class="shortcut-item" data-action="like">
+
+        <div class="shortcut-info">
+          <p class="shortcut-name">
+            Like
+          </p>
+
+          <p class="shortcut-description">
+            ホバーしているポストにいいね
+          </p>
+        </div>
+
+        <div class="shortcut-controls">
+
+          <div class="key">
+            K
+          </div>
+
+          <div class="record-wrapper">
+
+            <button
+              class="record-button"
+              type="button"
+            >
+              Record shortcut
+            </button>
+
+            <div class="tooltip">
+              クリックしたあと、設定したいキーを押してください
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+      --></section>
+    </main>
+  </body>
+</html>

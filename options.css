@@ -1,0 +1,255 @@
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+
+        padding: 64px 24px;
+
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+
+        background: #f6f7f9;
+        color: #18181b;
+      }
+
+      .settings {
+        width: 620px;
+
+        background: #ffffff;
+        border: 1px solid #e6e6e9;
+        border-radius: 18px;
+
+        box-shadow:
+          0 1px 2px rgba(0, 0, 0, 0.03),
+          0 12px 30px rgba(0, 0, 0, 0.05);
+
+        overflow: hidden;
+      }
+
+      .settings-header {
+        padding: 28px 28px 22px;
+      }
+
+      .title {
+        margin: 0;
+
+        font-size: 21px;
+        font-weight: 650;
+        letter-spacing: -0.02em;
+      }
+
+      .description {
+        margin: 7px 0 0;
+
+        color: #71717a;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .shortcut-list {
+        border-top: 1px solid #eeeeef;
+      }
+
+      /*
+      ショートカット1件分の共通レイアウト。
+      将来的に機能を増やす場合は
+      shortcut-item を追加するだけ。
+    */
+      .shortcut-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 24px;
+
+        min-height: 82px;
+        padding: 18px 28px;
+
+        border-bottom: 1px solid #eeeeef;
+      }
+
+      .shortcut-item:last-child {
+        border-bottom: none;
+      }
+
+      .shortcut-info {
+        min-width: 150px;
+      }
+
+      .shortcut-name {
+        margin: 0;
+
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .shortcut-description {
+        margin: 5px 0 0;
+
+        color: #8b8b93;
+        font-size: 12px;
+      }
+
+      .shortcut-controls {
+        display: flex;
+        align-items: center;
+
+        gap: 10px;
+      }
+
+      /*
+      現在設定されているキー
+    */
+      .key {
+        min-width: 42px;
+        height: 38px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 0 12px;
+
+        background: #fafafa;
+
+        border: 1px solid #d8d8dd;
+        border-bottom-width: 3px;
+        border-radius: 8px;
+
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      /*
+      Record shortcut
+    */
+      .record-wrapper {
+        position: relative;
+      }
+
+      .record-button {
+        height: 38px;
+
+        padding: 0 14px;
+
+        border: 1px solid #dddddf;
+        border-radius: 8px;
+
+        background: #ffffff;
+        color: #3f3f46;
+
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 550;
+
+        cursor: pointer;
+
+        transition:
+          background 0.15s ease,
+          border-color 0.15s ease,
+          transform 0.1s ease;
+      }
+
+      .record-button:hover {
+        background: #f6f6f7;
+        border-color: #ccccd0;
+      }
+
+      .record-button:active {
+        transform: scale(0.98);
+      }
+
+      /*
+      ホバー時に出る説明
+    */
+      .tooltip {
+        position: absolute;
+
+        right: 0;
+        bottom: calc(100% + 10px);
+
+        width: max-content;
+        max-width: 230px;
+
+        padding: 8px 10px;
+
+        background: #18181b;
+        color: #ffffff;
+
+        border-radius: 7px;
+
+        font-size: 11px;
+        line-height: 1.45;
+
+        opacity: 0;
+        visibility: hidden;
+
+        transform: translateY(4px);
+
+        transition:
+          opacity 0.15s ease,
+          transform 0.15s ease,
+          visibility 0.15s ease;
+
+        pointer-events: none;
+
+        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.14);
+      }
+
+      .tooltip::after {
+        content: "";
+
+        position: absolute;
+
+        right: 18px;
+        top: 100%;
+
+        border: 5px solid transparent;
+        border-top-color: #18181b;
+      }
+
+      .record-wrapper:hover .tooltip {
+        opacity: 1;
+        visibility: visible;
+
+        transform: translateY(0);
+      }
+
+      /*
+      JS実装時に使う予定のrecording状態
+    */
+      .shortcut-item.is-recording .key {
+        min-width: 110px;
+
+        border-color: #a1a1aa;
+        background: #ffffff;
+
+        color: #71717a;
+      }
+
+      .shortcut-item.is-recording .record-button {
+        background: #18181b;
+        border-color: #18181b;
+        color: #ffffff;
+      }
+
+      /*
+      将来的なホバー
+    */
+      .shortcut-item {
+        transition: background 0.15s ease;
+      }
+
+      .shortcut-item:hover {
+        background: #fcfcfd;
+      }

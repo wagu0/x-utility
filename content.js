@@ -40,23 +40,29 @@ let hoveredTweet = null;
 /** ツイート内の画像要素を保存する変数 */
 let hoveredTweetImageElement = null;
 
-const SAVE_TRIGGER_KEY = "l"; // 画像保存のトリガーキーを定義
-const LIKE_TRIGGER_KEY = "k"; // いいねのトリガーキーを定義
-const BOOKMARK_TRIGGER_KEY = "b"; // ブックマークのトリガーキーを定義
-const RETWEET_TRIGGER_KEY = "r"; // リツイートのトリガーキーを定義
-const DM_TRIGGER_KEY = "m"; // ダイレクトメッセージのトリガーキーを定義
-const PROFILE_TRIGGER_KEY = "p"; // プロフィールページを開くトリガーキーを定義
-const IMG_REGEX = /https:\/\/pbs\.twimg\.com\/media\/\w+\.\w+&name=\w+/; // 画像URLの正規表現
-
-/** トリガーキーと対応する関数の定義 */
-const shortcutActions = new Map([
-  [SAVE_TRIGGER_KEY, saveImage],
-  [LIKE_TRIGGER_KEY, likeTweet],
-  [BOOKMARK_TRIGGER_KEY, bookmarkTweet],
-  [RETWEET_TRIGGER_KEY, retweetTweet],
-  [DM_TRIGGER_KEY, openDirectMessage],
-  [PROFILE_TRIGGER_KEY, openProfilePage],
+/** トリガーキーと対応するaction名を保持するMap */
+const shortcutKeyMap = new Map([]);
+/** action名と関数名を保持するMap */
+const actionMap = new Map([
+  ["saveImage", saveImage],
+  // ["likeTweet", likeTweet],
+  // ["bookmarkTweet", bookmarkTweet],
+  // ["retweetTweet", retweetTweet],
+  // ["openDirectMessage", openDirectMessage],
+  // ["openProfilePage", openProfilePage],
 ]);
+// 初期処理
+getShortcutKey();
+
+// ショートカットの設定を取得して、shortcutKeyMapに保存する関数
+function getShortcutKey() {
+  chrome.storage.local.get(null, (items) => {
+    for (const [action, key] of Object.entries(items)) {
+      shortcutKeyMap.set(key, action);
+    }
+    console.log(shortcutKeyMap);
+  });
+}
 
 // マウスホバーしているツイートを検出するイベントリスナー
 document.addEventListener("mouseover", (event) => {
@@ -92,15 +98,22 @@ document.addEventListener("keydown", (event) => {
   if (event.ctrlKey && event.key === "r") {
     return;
   }
-  const action = shortcutActions.get(event.key);
+  // 押されたキーに対応するactuion名を取得
+  const actionName = shortcutKeyMap.get(event.key.toUpperCase());
+  console.log("押されたキー:", event.key.toUpperCase());
+  console.log("押されたキーに対応するaction名:", actionName);
+  // action名に対応する関数を取得
+  const action = actionMap.get(actionName);
   if (!action) {
+    console.log("対応するアクションが見つかりませんでした。");
     return;
   }
+
   console.log(
     "ショートカットキーが押されました:",
     event.key,
     "対応する関数:",
-    action.name,
+    action,
   );
   event.preventDefault(); // トリガーキーのデフォルトの動作を防止
   action(event); // 対応する関数を実行
@@ -252,7 +265,7 @@ function showSavingIndicator() {
 }
 </style>
 <div id="png-saving">
-  <h3>PNG保存中...</h3>
+  <h3>画像保存中...</h3>
 </div>`;
   // UIを画面に表示
   const element = document.body.appendChild(nav);

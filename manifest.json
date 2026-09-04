@@ -3,7 +3,8 @@
     "name": "X Image Saver",
     "version": "1.0",
     "permissions": [
-        "downloads"
+        "downloads",
+        "storage"
     ],
     "content_scripts": [
         {
@@ -18,4 +19,6 @@
     "background": {
         "service_worker": "service_worker.js"
     }
+    ,
+    "options_page": "options.html"
 }
