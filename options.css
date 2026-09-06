@@ -169,6 +169,31 @@
         transform: scale(0.98);
       }
 
+      .clear-button{
+        height: 38px;
+        padding: 0 14px;
+        border-radius: 8px;
+        color: #b42318;
+        border: 1px solid #f0b8b3;
+        background: #fffafa;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 550;
+        cursor: pointer;
+
+        transition:
+          background 0.15s ease,
+          border-color 0.15s ease,
+          transform 0.1s ease;
+      }
+      .clear-button:hover {
+        background: #fff1f0;
+        border-color: #e89b94;
+      }
+
+      .clear-button:active {
+        transform: scale(0.98);
+      }
       /*
       ホバー時に出る説明
     */
@@ -229,8 +254,6 @@
       JS実装時に使う予定のrecording状態
     */
       .shortcut-item.is-recording .key {
-        min-width: 110px;
-
         border-color: #a1a1aa;
         background: #ffffff;
 
@@ -252,4 +275,20 @@
 
       .shortcut-item:hover {
         background: #fcfcfd;
+      }
+      .shortcut-error {
+        display: none;
+      }
+      .shortcut-error.is-visible {
+        display: block;
+
+        margin: 0 0 10px;
+
+        color: #b42318;
+        font-size: 12px;
+      }
+      .shortcut-setting {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
       }
