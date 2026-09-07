@@ -62,7 +62,13 @@ function getShortcutKey() {
     }
   });
 }
-
+// chrome.storage.localの変更を監視して、shortcutKeyMapを更新する
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  if (areaName === "local") {
+    shortcutKeyMap.clear();
+    getShortcutKey();
+  }
+});
 // マウスホバーしているツイートを検出するイベントリスナー
 document.addEventListener("mouseover", (event) => {
   // ホバーしているツイートを取得
@@ -94,8 +100,12 @@ document.addEventListener("keydown", (event) => {
   ) {
     return;
   }
-  // Ctrl+Rが押された場合はリツイートのデフォルト動作を行うため、Ctrlキーが押されていない場合のみ処理を行う
-  if (event.ctrlKey && event.key === "r") {
+  // 修飾キーが一緒に押された場合は処理を行わない
+  if (event.ctrlKey || event.altKey || event.shiftKey || event.metaKey) {
+    return;
+  }
+  // リピートされた場合は処理を行わない
+  if (event.repeat) {
     return;
   }
   // 押されたキーに対応するactuion名を取得
@@ -149,9 +159,11 @@ function saveImage() {
       console.warn("画像のURLが見つかりませんでした。");
       return;
     }
-    // 画像URLからorigを抽出する処理
-    const origUrl = imgSrc.replace(/&name=\w+/, "&name=orig");
-    const imageExtension = new URL(origUrl).searchParams.get("format");
+    // 画像URLを加工してすべてorigのURLに変換する処理を追加
+    const url = new URL(imgSrc);
+    url.searchParams.set("name", "orig");
+    const origUrl = url.toString();
+    const imageExtension = url.searchParams.get("format");
 
     if (!imageExtension) {
       console.warn("画像の拡張子がURLから取得できませんでした。");
@@ -200,9 +212,9 @@ function saveImage() {
             return;
           }
           if (response && response.success) {
-            showSavingIndicator(); // 保存中のインジケーターを表示
+            showNotification("画像を保存しています...", "success");
           } else {
-            console.error("画像のダウンロードに失敗しました。");
+            showNotification("画像の保存に失敗しました", "error");
           }
         },
       );
@@ -212,13 +224,14 @@ function saveImage() {
   }
 }
 /**
- * 保存中のインジケーターを表示
+ * 通知を表示
  */
-function showSavingIndicator() {
+function showNotification(message, type) {
   const nav = document.createElement("nav");
+
   nav.innerHTML = `
 <style>
-#png-saving {
+.notification {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -229,7 +242,12 @@ function showSavingIndicator() {
     border-radius: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-#png-saving h3 {
+
+.notification.error {
+    background-color: rgba(180, 35, 24, 0.95);
+}
+
+.notification h3 {
     color: #ffffff;
     font-size: 24px;
     font-family: sans-serif;
@@ -237,8 +255,9 @@ function showSavingIndicator() {
     text-align: center;
 }
 </style>
-<div id="png-saving">
-  <h3>画像保存中...</h3>
+
+<div class="notification ${type}">
+  <h3>${message}</h3>
 </div>`;
   // UIを画面に表示
   const element = document.body.appendChild(nav);
