@@ -71,6 +71,8 @@ document.addEventListener("mouseover", (event) => {
   if (targetTweet) {
     hoveredTweet = targetTweet;
   } else {
+    // ツイート要素下をホバーしていない場合はhoveredTweetをnullにする
+    hoveredTweet = null;
     return;
   }
   // 画像がホバーされている場合ホバー中の画像を取得する
@@ -79,6 +81,7 @@ document.addEventListener("mouseover", (event) => {
     hoveredTweetImageElement = targetImage;
   } else {
     hoveredTweetImageElement = null;
+    hoveredTweet = null; // 画像がホバーされていない場合はhoveredTweetもnullにする
   }
 });
 // キーダウンが発生したときの共通処理
@@ -121,8 +124,7 @@ function saveImage() {
     // ユーザーIDとツイートの投稿日時を保持する変数
     let userID = "UnknownUser";
     let tweetDateForJST = "UnknownDate";
-    const userNameElement =
-      hoveredTweet.querySelector(TWEET_PROFILE_SELECTOR) || "UnknownUser";
+    const userNameElement = hoveredTweet.querySelector(TWEET_PROFILE_SELECTOR);
     const tweetTimeElement = hoveredTweet.querySelector(TWEET_TIME_TAG);
     const tweetTime = tweetTimeElement
       ? tweetTimeElement.getAttribute(TWEET_TIME_DATETIME)
@@ -167,8 +169,13 @@ function saveImage() {
         imageCount = index;
       }
     });
-    // ユーザーIDを取得する関数を呼び出す
-    userID = findUserID(userNameElement);
+
+    if (userNameElement) {
+      // ユーザーIDを取得する関数を呼び出す
+      userID = findUserID(userNameElement);
+    } else {
+      userID = "UnknownUser";
+    }
     // 画像が1枚の場合と複数枚の場合でファイル名を分ける
     if (tweetImageCount === 1) {
       fileName = `${tweetDateForJST}_${userID}.${imageExtension}`;
