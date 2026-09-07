@@ -80,8 +80,8 @@ document.addEventListener("mouseover", (event) => {
   if (targetImage) {
     hoveredTweetImageElement = targetImage;
   } else {
+    // 画像がホバーされていない場合はhoveredTweetImageElementをnullにする
     hoveredTweetImageElement = null;
-    hoveredTweet = null; // 画像がホバーされていない場合はhoveredTweetもnullにする
   }
 });
 // キーダウンが発生したときの共通処理
@@ -113,7 +113,6 @@ function saveImage() {
   let fileName;
   // 画像を含むツイートの場合の処理
   if (!hoveredTweet || !hoveredTweetImageElement) {
-    console.warn("保存対象のツイートまたは画像が見つかりませんでした。");
     return;
   }
   // ツイートに画像が含まれていない場合の処理
