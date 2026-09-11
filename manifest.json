@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "X Image Saver",
+    "name": "x-utility",
     "version": "1.0",
     "permissions": [
         "downloads",
@@ -20,5 +20,8 @@
         "service_worker": "service_worker.js"
     }
     ,
-    "options_page": "options.html"
+    "options_page": "options.html",
+    "action": {
+        "default_title": "ショートカット設定を開く"
+    }
 }

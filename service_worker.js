@@ -27,3 +27,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true; // 非同期でsendResponseを呼び出すためにtrueを返す
   }
 });
+// 拡張機能のアイコンがクリックされたときにoption.htmlを開く
+chrome.action.onClicked.addListener((tab) => {
+  chrome.runtime.openOptionsPage();
+});
