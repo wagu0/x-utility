@@ -31,6 +31,8 @@ const TWEET_PROFILE_SELECTOR = '[data-testid="User-Name"]';
 const DM_MENU_SELECTOR = '[data-testid="AppTabBar_DirectMessage_Link"]';
 /** プロフィールページのセレクタ */
 const USER_PROFILE_SELECTOR = '[data-testid="AppTabBar_Profile_Link"]';
+/** アカウントメニューのセレクタ */
+const ACCOUNT_MENU_SELECTOR = '[data-testid="SideNav_AccountSwitcher_Button"]';
 /** ツイートのURLに含まれる文字列 */
 const STATUS = "status";
 /** ツイートの投稿日時を取得するためのセレクタ */
@@ -51,10 +53,11 @@ const actionMap = new Map([
   ["retweetTweet", retweetTweet],
   ["openDirectMessage", openDirectMessage],
   ["openProfilePage", openProfilePage],
+  ["toggleAccount", toggleAccount],
 ]);
 // 初期処理
 getShortcutKey();
-
+shortcutKeyMap.set("shift+space", "toggleAccount");
 // ショートカットの設定を取得して、shortcutKeyMapに保存する関数
 function getShortcutKey() {
   chrome.storage.local.get(null, (items) => {
@@ -93,6 +96,9 @@ document.addEventListener("mouseover", (event) => {
 });
 // キーダウンが発生したときの共通処理
 document.addEventListener("keydown", (event) => {
+  // TODO toggleAccount設定をoption.htmlに追加次第削除
+  // shift+spaceキーのみ除外 spaceは空白で判定
+  const isShiftSpace = event.key === " " && event.shiftKey;
   // フォームの入力欄（ツイート検索やリプ欄など）でタイピングしている時は動作させないためのガード
   if (
     event.target.tagName === "INPUT" ||
@@ -102,15 +108,24 @@ document.addEventListener("keydown", (event) => {
     return;
   }
   // 修飾キーが一緒に押された場合は処理を行わない
-  if (event.ctrlKey || event.altKey || event.shiftKey || event.metaKey) {
+  if (
+    event.ctrlKey ||
+    event.altKey ||
+    event.metaKey ||
+    (event.shiftKey && !isShiftSpace)
+  ) {
     return;
   }
+
   // リピートされた場合は処理を行わない
   if (event.repeat) {
     return;
   }
   // 押されたキーに対応するactuion名を取得
-  const actionName = shortcutKeyMap.get(event.key.toUpperCase());
+  const shortcutKey = isShiftSpace ? "shift+space" : event.key.toUpperCase();
+
+  const actionName = shortcutKeyMap.get(shortcutKey);
+
   // action名に対応する関数を取得
   const action = actionMap.get(actionName);
   if (!action) {
@@ -352,5 +367,15 @@ function openProfilePage() {
     return;
   }
   profileButton.click();
+  return;
+}
+// アカウント切り替えメニューを開く関数
+function toggleAccount() {
+  const accountMenuButton = document.querySelector(ACCOUNT_MENU_SELECTOR);
+  if (!accountMenuButton) {
+    console.warn("アカウントメニューボタンが見つかりませんでした。");
+    return;
+  }
+  accountMenuButton.click();
   return;
 }
