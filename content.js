@@ -8,6 +8,11 @@
  * aria-label="前のスライド"
  * aria-label="次のスライド"
  */
+//todo ja-JPのロケール変換に依存せず、ファイル名用の日付をYYYY-MM-DD形式で生成する
+// todo アカウント切り替えメニューを画面中央に表示する
+// todo アカウント切り替えメニューオプションをoption.htmlに追加する
+// todo　鍵アカウントのミュート機能
+// todo リストツイートの画像のみオプション
 /** 画像が含まれたツイートを検知するためのセレクタ */
 const TWEET_IMAGE_SELECTOR = '[data-testid="tweetPhoto"]';
 /** ツイートのセレクタ */
