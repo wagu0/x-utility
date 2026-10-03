@@ -4,6 +4,10 @@ X（旧Twitter）で、マウスを重ねたポストへの操作や画像の保
 
 [Chrome Web Storeでインストール](https://chromewebstore.google.com/detail/x-utility/gnlnlahoefpdkllpohjnfdfmodicmkee?hl=ja)
 
+## デモ動画
+
+[![X Utility デモ動画](https://img.youtube.com/vi/hBv4D1I0q6Q/maxresdefault.jpg)](https://youtu.be/hBv4D1I0q6Q)
+
 ## 開発背景
 
 普段Xを使う中で、頻繁に行う操作を楽にするために開発しました。以前から個人利用していた画像保存機能を作り直し、2026年5月末頃からこのリポジトリで開発しています。
