@@ -1,294 +1,355 @@
-      * {
-        box-sizing: border-box;
-      }
+* {
+  box-sizing: border-box;
+}
 
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 
-        padding: 64px 24px;
+  padding: 64px 24px;
 
-        font-family:
-          Inter,
-          -apple-system,
-          BlinkMacSystemFont,
-          "Segoe UI",
-          sans-serif;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 
-        background: #f6f7f9;
-        color: #18181b;
-      }
+  background: #f6f7f9;
+  color: #18181b;
+}
 
-      .settings {
-        width: 620px;
+.settings {
+  width: 620px;
 
-        background: #ffffff;
-        border: 1px solid #e6e6e9;
-        border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid #e6e6e9;
+  border-radius: 18px;
 
-        box-shadow:
-          0 1px 2px rgba(0, 0, 0, 0.03),
-          0 12px 30px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.03),
+    0 12px 30px rgba(0, 0, 0, 0.05);
 
-        overflow: hidden;
-      }
+  overflow: hidden;
+}
 
-      .settings-header {
-        padding: 28px 28px 22px;
-      }
+.settings-header {
+  padding: 28px 28px 22px;
+}
 
-      .title {
-        margin: 0;
+.title {
+  margin: 0;
 
-        font-size: 21px;
-        font-weight: 650;
-        letter-spacing: -0.02em;
-      }
+  font-size: 21px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
 
-      .description {
-        margin: 7px 0 0;
+.description {
+  margin: 7px 0 0;
 
-        color: #71717a;
-        font-size: 14px;
-        line-height: 1.5;
-      }
+  color: #71717a;
+  font-size: 14px;
+  line-height: 1.5;
+}
 
-      .shortcut-list {
-        border-top: 1px solid #eeeeef;
-      }
+.shortcut-list {
+  border-top: 1px solid #eeeeef;
+}
 
-      /*
+/*
       ショートカット1件分の共通レイアウト。
       将来的に機能を増やす場合は
       shortcut-item を追加するだけ。
     */
-      .shortcut-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+.shortcut-item,
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-        gap: 24px;
+  gap: 24px;
 
-        min-height: 82px;
-        padding: 18px 28px;
+  min-height: 82px;
+  padding: 18px 28px;
 
-        border-bottom: 1px solid #eeeeef;
-      }
+  border-bottom: 1px solid #eeeeef;
+}
 
-      .shortcut-item:last-child {
-        border-bottom: none;
-      }
+.shortcut-item:last-child {
+  border-bottom: none;
+}
 
-      .shortcut-info {
-        min-width: 150px;
-      }
+.shortcut-info,
+.setting-info {
+  min-width: 150px;
+}
 
-      .shortcut-name {
-        margin: 0;
+.shortcut-name,
+.setting-name {
+  margin: 0;
 
-        font-size: 14px;
-        font-weight: 600;
-      }
+  font-size: 14px;
+  font-weight: 600;
+}
 
-      .shortcut-description {
-        margin: 5px 0 0;
+.shortcut-description,
+.setting-description {
+  margin: 5px 0 0;
 
-        color: #8b8b93;
-        font-size: 12px;
-      }
+  color: #8b8b93;
+  font-size: 12px;
+}
 
-      .shortcut-controls {
-        display: flex;
-        align-items: center;
+.shortcut-controls,
+.setting-controls {
+  display: flex;
+  align-items: center;
 
-        gap: 10px;
-      }
+  gap: 10px;
+}
 
-      /*
+/*
       現在設定されているキー
     */
-      .key {
-        min-width: 42px;
-        height: 38px;
+.key {
+  min-width: 42px;
+  height: 38px;
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-        padding: 0 12px;
+  padding: 0 12px;
 
-        background: #fafafa;
+  background: #fafafa;
 
-        border: 1px solid #d8d8dd;
-        border-bottom-width: 3px;
-        border-radius: 8px;
+  border: 1px solid #d8d8dd;
+  border-bottom-width: 3px;
+  border-radius: 8px;
 
-        font-size: 13px;
-        font-weight: 600;
-      }
+  font-size: 13px;
+  font-weight: 600;
+}
 
-      /*
+/*
       Record shortcut
     */
-      .record-wrapper {
-        position: relative;
-      }
+.record-wrapper {
+  position: relative;
+}
 
-      .record-button {
-        height: 38px;
+.record-button {
+  height: 38px;
 
-        padding: 0 14px;
+  padding: 0 14px;
 
-        border: 1px solid #dddddf;
-        border-radius: 8px;
+  border: 1px solid #dddddf;
+  border-radius: 8px;
 
-        background: #ffffff;
-        color: #3f3f46;
+  background: #ffffff;
+  color: #3f3f46;
 
-        font-family: inherit;
-        font-size: 13px;
-        font-weight: 550;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 550;
 
-        cursor: pointer;
+  cursor: pointer;
 
-        transition:
-          background 0.15s ease,
-          border-color 0.15s ease,
-          transform 0.1s ease;
-      }
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.1s ease;
+}
 
-      .record-button:hover {
-        background: #f6f6f7;
-        border-color: #ccccd0;
-      }
+.record-button:hover {
+  background: #f6f6f7;
+  border-color: #ccccd0;
+}
 
-      .record-button:active {
-        transform: scale(0.98);
-      }
+.record-button:active {
+  transform: scale(0.98);
+}
 
-      .clear-button{
-        height: 38px;
-        padding: 0 14px;
-        border-radius: 8px;
-        color: #b42318;
-        border: 1px solid #f0b8b3;
-        background: #fffafa;
-        font-family: inherit;
-        font-size: 13px;
-        font-weight: 550;
-        cursor: pointer;
+.clear-button {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 8px;
+  color: #b42318;
+  border: 1px solid #f0b8b3;
+  background: #fffafa;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 550;
+  cursor: pointer;
 
-        transition:
-          background 0.15s ease,
-          border-color 0.15s ease,
-          transform 0.1s ease;
-      }
-      .clear-button:hover {
-        background: #fff1f0;
-        border-color: #e89b94;
-      }
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.1s ease;
+}
+.clear-button:hover {
+  background: #fff1f0;
+  border-color: #e89b94;
+}
 
-      .clear-button:active {
-        transform: scale(0.98);
-      }
-      /*
+.clear-button:active {
+  transform: scale(0.98);
+}
+/*
       ホバー時に出る説明
     */
-      .tooltip {
-        position: absolute;
+.tooltip {
+  position: absolute;
 
-        right: 0;
-        bottom: calc(100% + 10px);
+  right: 0;
+  bottom: calc(100% + 10px);
 
-        width: max-content;
-        max-width: 230px;
+  width: max-content;
+  max-width: 230px;
 
-        padding: 8px 10px;
+  padding: 8px 10px;
 
-        background: #18181b;
-        color: #ffffff;
+  background: #18181b;
+  color: #ffffff;
 
-        border-radius: 7px;
+  border-radius: 7px;
 
-        font-size: 11px;
-        line-height: 1.45;
+  font-size: 11px;
+  line-height: 1.45;
 
-        opacity: 0;
-        visibility: hidden;
+  opacity: 0;
+  visibility: hidden;
 
-        transform: translateY(4px);
+  transform: translateY(4px);
 
-        transition:
-          opacity 0.15s ease,
-          transform 0.15s ease,
-          visibility 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease,
+    visibility 0.15s ease;
 
-        pointer-events: none;
+  pointer-events: none;
 
-        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.14);
-      }
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.14);
+}
 
-      .tooltip::after {
-        content: "";
+.tooltip::after {
+  content: "";
 
-        position: absolute;
+  position: absolute;
 
-        right: 18px;
-        top: 100%;
+  right: 18px;
+  top: 100%;
 
-        border: 5px solid transparent;
-        border-top-color: #18181b;
-      }
+  border: 5px solid transparent;
+  border-top-color: #18181b;
+}
 
-      .record-wrapper:hover .tooltip {
-        opacity: 1;
-        visibility: visible;
+.record-wrapper:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
 
-        transform: translateY(0);
-      }
+  transform: translateY(0);
+}
 
-      /*
+/*
       JS実装時に使う予定のrecording状態
     */
-      .shortcut-item.is-recording .key {
-        border-color: #a1a1aa;
-        background: #ffffff;
+.shortcut-item.is-recording .key {
+  border-color: #a1a1aa;
+  background: #ffffff;
 
-        color: #71717a;
-      }
+  color: #71717a;
+}
 
-      .shortcut-item.is-recording .record-button {
-        background: #18181b;
-        border-color: #18181b;
-        color: #ffffff;
-      }
+.shortcut-item.is-recording .record-button {
+  background: #18181b;
+  border-color: #18181b;
+  color: #ffffff;
+}
 
-      /*
+/*
       将来的なホバー
     */
-      .shortcut-item {
-        transition: background 0.15s ease;
-      }
+.shortcut-item {
+  transition: background 0.15s ease;
+}
 
-      .shortcut-item:hover {
-        background: #fcfcfd;
-      }
-      .shortcut-error {
-        display: none;
-      }
-      .shortcut-error.is-visible {
-        display: block;
+.shortcut-item:hover {
+  background: #fcfcfd;
+}
+.shortcut-error {
+  display: none;
+}
+.shortcut-error.is-visible {
+  display: block;
 
-        margin: 0 0 10px;
+  margin: 0 0 10px;
 
-        color: #b42318;
-        font-size: 12px;
-      }
-      .shortcut-setting {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-      }
+  color: #b42318;
+  font-size: 12px;
+}
+.shortcut-setting,
+.setting-setting {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+/* ON / OFF トグル */
+.setting-checkbox {
+  appearance: none;
+
+  width: 42px;
+  height: 24px;
+
+  margin: 0;
+
+  background: #e4e4e7;
+  border: 1px solid #d8d8dd;
+  border-radius: 999px;
+
+  position: relative;
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+/* トグル内の丸 */
+.setting-checkbox::after {
+  content: "";
+
+  position: absolute;
+  top: 2px;
+  left: 2px;
+
+  width: 18px;
+  height: 18px;
+
+  background: #ffffff;
+  border-radius: 50%;
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+
+  transition: transform 0.15s ease;
+}
+
+/* ON */
+.setting-checkbox:checked {
+  background: #18181b;
+  border-color: #18181b;
+}
+
+.setting-checkbox:checked::after {
+  transform: translateX(18px);
+}
+
+/* キーボード操作時 */
+.setting-checkbox:focus-visible {
+  outline: 2px solid #a1a1aa;
+  outline-offset: 2px;
+}

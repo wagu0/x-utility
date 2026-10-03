@@ -57,9 +57,10 @@ getShortcutKey();
 
 // ショートカットの設定を取得して、shortcutKeyMapに保存する関数
 function getShortcutKey() {
-  chrome.storage.local.get(null, (items) => {
+  chrome.storage.local.get(Array.from(actionMap.keys()), (items) => {
     for (const [action, key] of Object.entries(items)) {
       shortcutKeyMap.set(key, action);
+      console.log("getShortcutKey", action, key);
     }
   });
 }
