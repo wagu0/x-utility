@@ -10,6 +10,8 @@
 // TODO ON → OFF時にぼかし済みツイートをすべて解除する
 // TODO 初期表示されている鍵垢ツイートも検出できるか確認する
 // TODO スクロール・hover・画面遷移後も正常に動作するか確認する
+// TODO console.logを削除する
+
 /** プライベートアカウントのセレクタ */
 const PRIVATE_ACCOUNT_SELECTOR = '[data-testid="icon-lock"]';
 //ツイート要素を監視して、プライベートアカウントのアイコンが存在する場合にぼかしを適用する
