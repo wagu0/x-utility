@@ -12,7 +12,8 @@
                 "https://x.com/*"
             ],
             "js": [
-                    "content.js",
+                "privateAccountFilter.js",
+                "content.js",
                 "mediaDefaultImage.js"
             ]
         }
