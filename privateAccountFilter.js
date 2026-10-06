@@ -25,8 +25,8 @@ function observeTweets() {
             const privateAccountIcon = tweetElement.querySelector(
               PRIVATE_ACCOUNT_SELECTOR,
             );
-            // プライベートアカウントのアイコンが存在する場合
-            if (privateAccountIcon) {
+            // プライベートアカウントのアイコンが存在し、まだぼかしが適用されていない場合にぼかしを適用する
+            if (privateAccountIcon && !tweetElement.dataset.privateState) {
               applyPrivateTweetBlur(tweetElement);
             }
           });
@@ -39,6 +39,7 @@ function observeTweets() {
 // ツイートにぼかしを適用する関数
 function applyPrivateTweetBlur(tweetElement) {
   tweetElement.style.filter = "blur(5px)";
+  tweetElement.dataset.privateState = "blurred"; // ぼかし済みを示すdata属性を付与
   // 一回だけクリックイベントを追加して、クリック時にイベントを停止する
   tweetElement.addEventListener(
     "click",
@@ -47,6 +48,7 @@ function applyPrivateTweetBlur(tweetElement) {
       event.preventDefault();
       event.stopPropagation();
       tweetElement.style.filter = "none"; // クリック時にぼかしを解除
+      tweetElement.dataset.privateState = "revealed"; // ぼかし解除済みを示すdata属性に変更
     },
     { once: true },
   );
