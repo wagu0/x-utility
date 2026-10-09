@@ -40,6 +40,8 @@ const TWEET_TIME_DATETIME = "datetime";
 let hoveredTweet = null;
 /** ツイート内の画像要素を保存する変数 */
 let hoveredTweetImageElement = null;
+// chrome.storage.localに保存されているチェックボックスの設定を取得するためのキー
+const SETTINGS_STORAGE_KEY = "settings";
 
 /** トリガーキーと対応するaction名を保持するMap */
 const shortcutKeyMap = new Map([]);
@@ -57,7 +59,7 @@ getShortcutKey();
 
 // ショートカットの設定を取得して、shortcutKeyMapに保存する関数
 function getShortcutKey() {
-  chrome.storage.local.get(null, (items) => {
+  chrome.storage.local.get(Array.from(actionMap.keys()), (items) => {
     for (const [action, key] of Object.entries(items)) {
       shortcutKeyMap.set(key, action);
     }
@@ -70,6 +72,18 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
     getShortcutKey();
   }
 });
+// 設定のvalueを引数で受け取りchrome.storage.localから対象の設定を取得する関数
+async function getSetting(settingsKey) {
+  const result = await chrome.storage.local.get([SETTINGS_STORAGE_KEY]);
+  if (result[SETTINGS_STORAGE_KEY]) {
+    const settings = result[SETTINGS_STORAGE_KEY];
+    if (settings.hasOwnProperty(settingsKey)) {
+      return settings[settingsKey];
+    }
+    return null;
+  }
+}
+
 // マウスホバーしているツイートを検出するイベントリスナー
 document.addEventListener("mouseover", (event) => {
   // ホバーしているツイートを取得

@@ -3,13 +3,18 @@ const RECORD_BUTTON_CLASS = ".record-button";
 const SHORTCUT_ITEM_CLASS = ".shortcut-item";
 const CLEAR_BUTTON_CLASS = ".clear-button";
 const ERROR_CLASS = ".shortcut-error";
+const SETTING_ITEM_CLASS = ".setting-item";
+const CHECKBOX_CLASS = ".setting-checkbox";
 /** 追加しているクラスのため.はなし */
 const IS_RECORDING_CLASS = "is-recording";
 const KEY_CLASS = ".key";
+const SETTINGS_STORAGE_KEY = "settings";
 // 初期処理
 setUpRecordButton();
 setUpClearButton();
+setUpSettingCheckboxes();
 loadShortcutSettings();
+loadSetting();
 //　すべてのショートカットボタンにイベントを設定する
 function setUpRecordButton() {
   const shortcutButtons = document.querySelectorAll(RECORD_BUTTON_CLASS);
@@ -97,7 +102,7 @@ function saveShortcutSettings(action, key) {
 }
 // ショートカットの設定を取得する関数
 function loadShortcutSettings() {
-  chrome.storage.local.get(null, (items) => {
+  chrome.storage.local.get(getShortcutActions(), (items) => {
     for (const [action, key] of Object.entries(items)) {
       const shortcutItem = document.querySelector(
         `${SHORTCUT_ITEM_CLASS}[data-action="${action}"]`,
@@ -118,7 +123,7 @@ function clearShortcutSetting(shortcutItem) {
 }
 // キーからアクション名を取得する関数
 async function getActionName(key) {
-  const items = await chrome.storage.local.get(null);
+  const items = await chrome.storage.local.get(getShortcutActions());
   for (const [action, value] of Object.entries(items)) {
     if (value === key) {
       return action;
@@ -130,4 +135,49 @@ async function getActionName(key) {
 function hideErrorMessages(shortcutItem) {
   const errorElement = shortcutItem.querySelector(ERROR_CLASS);
   errorElement.classList.remove("is-visible");
+}
+// action名が入った配列を返す関数
+function getShortcutActions() {
+  const shortcutItems = document.querySelectorAll(SHORTCUT_ITEM_CLASS);
+  const actions = [];
+  for (const shortcutItem of shortcutItems) {
+    const action = shortcutItem.dataset.action;
+    if (action) {
+      actions.push(action);
+    }
+  }
+  return actions;
+}
+// すべてのチェックボックスにイベントを設定する関数
+function setUpSettingCheckboxes() {
+  const checkboxes = document.querySelectorAll(CHECKBOX_CLASS);
+  for (const checkbox of checkboxes) {
+    checkbox.addEventListener("change", (event) => {
+      saveSetting(checkbox.dataset.setting, checkbox.checked);
+    });
+  }
+}
+// chrome.storage.localからチェックボックスの設定をすべて取得する関数
+// 存在しない場合は空のオブジェクトを返す
+async function getSettings() {
+  const storageResult = await chrome.storage.local.get(SETTINGS_STORAGE_KEY);
+  return storageResult[SETTINGS_STORAGE_KEY] || {};
+}
+
+// チェックボックスで定義されている設定を保存する関数
+async function saveSetting(settingKey, settingValue) {
+  const settings = await getSettings();
+  settings[settingKey] = settingValue;
+  await chrome.storage.local.set({ [SETTINGS_STORAGE_KEY]: settings });
+}
+
+// chrome.storage.localの設定を読み込みチェックボックスに反映する関数
+async function loadSetting() {
+  const settings = await getSettings();
+  const checkboxes = document.querySelectorAll(CHECKBOX_CLASS);
+  for (const checkbox of checkboxes) {
+    // chrome.storage.localに合わせてチェックボックスの状態を設定する
+    // 存在しない場合はfalseにする
+    checkbox.checked = Boolean(settings[checkbox.dataset.setting]);
+  }
 }

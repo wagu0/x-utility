@@ -12,7 +12,8 @@
                 "https://x.com/*"
             ],
             "js": [
-                "content.js"
+                    "content.js",
+                "mediaDefaultImage.js"
             ]
         }
     ],
