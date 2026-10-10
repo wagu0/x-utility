@@ -5,20 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="options.css" />
     <script src="options.js" defer></script>
-    <title>Shortcut Settings</title>
+    <title>X Utility Settings</title>
   </head>
 
   <body>
     <main class="settings">
       <header class="settings-header">
-        <h1 class="title">Keyboard shortcuts</h1>
+        <h1 class="title">Settings</h1>
 
-        <p class="description">
-          拡張機能で使用するショートカットキーを設定します。
-        </p>
+        <p class="description">X Utilityの各種設定を変更できます</p>
       </header>
 
-      <section class="shortcut-list">
+      <section class="settings-list">
         <!-- Save image -->
         <div class="shortcut-item" data-action="saveImage">
           <div class="shortcut-info">
@@ -198,7 +196,7 @@
 
         <div class="setting-item">
           <div class="setting-info">
-            <p class="setting-name">media Default</p>
+            <p class="setting-name">Media Default</p>
 
             <p class="setting-description">メディアページの標準を画像で開く</p>
           </div>
@@ -207,6 +205,23 @@
               type="checkbox"
               class="setting-checkbox"
               data-setting="mediaDefaultImage"
+            />
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <p class="setting-name">Private Account Filter</p>
+
+            <p class="setting-description">
+              鍵付きアカウントのポストをぼかして表示する（クリックで解除）
+            </p>
+          </div>
+          <div class="setting-controls">
+            <input
+              type="checkbox"
+              class="setting-checkbox"
+              data-setting="privateAccountFilter"
             />
           </div>
         </div>

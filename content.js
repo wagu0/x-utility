@@ -56,7 +56,6 @@ const actionMap = new Map([
 ]);
 // 初期処理
 getShortcutKey();
-observeTweets(); // ツイートのDOM変化を監視する
 
 // ショートカットの設定を取得して、shortcutKeyMapに保存する関数
 function getShortcutKey() {
@@ -81,7 +80,7 @@ async function getSetting(settingsKey) {
     if (settings.hasOwnProperty(settingsKey)) {
       return settings[settingsKey];
     }
-    return null;
+    return undefined;
   }
 }
 
