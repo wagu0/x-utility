@@ -80,7 +80,7 @@ async function getSetting(settingsKey) {
     if (settings.hasOwnProperty(settingsKey)) {
       return settings[settingsKey];
     }
-    return null;
+    return undefined;
   }
 }
 

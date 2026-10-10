@@ -29,7 +29,7 @@ async function initializeMediaDefaultImage() {
   const mediaDefaultImageSetting =
     (await getSetting(MEDIA_DEFAULT_IMAGE_SETTING_KEY)) === true;
 
-  // 初回の設定の状態を保存
+  // 最後の設定の状態を保存
   if (mediaDefaultImageSetting === true) {
     observeMediaPage();
     lastMediaDefaultImageSetting = true;
