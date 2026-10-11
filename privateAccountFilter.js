@@ -2,7 +2,7 @@
 const PRIVATE_ACCOUNT_FILTER_SETTING_KEY = "privateAccountFilter";
 /** プライベートアカウントのセレクタ */
 const PRIVATE_ACCOUNT_SELECTOR = '[data-testid="icon-lock"]';
-/** ツイートのセレクタ content.jsと協業するため変数名を別名に変更 */
+/** ツイートのセレクタ content.jsと競合するため変数名を別名に変更 */
 const TARGET_TWEET_SELECTOR = 'article[data-testid="tweet"]';
 /** observerの定義 */
 const privateTweetObserver = new MutationObserver(handleTweetMutations);
