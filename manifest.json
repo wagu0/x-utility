@@ -14,7 +14,11 @@
             "js": [
                 "content.js",
                 "privateAccountFilter.js",
-                "mediaDefaultImage.js"
+                "mediaDefaultImage.js",
+                "accountSwitcher.js"
+            ],
+            "css": [
+                "accountSwitcher.css"
             ]
         }
     ],
