@@ -6,7 +6,7 @@ X（旧Twitter）で、マウスを重ねたポストへの操作や画像の保
 
 ## デモ動画
 
-[![X Utility デモ動画](https://img.youtube.com/vi/hBv4D1I0q6Q/maxresdefault.jpg)](https://youtu.be/hBv4D1I0q6Q)
+[![X Utility デモ動画](https://img.youtube.com/vi/d_bAJJWvwU0/maxresdefault.jpg)](https://youtu.be/d_bAJJWvwU0)
 
 ## 開発背景
 
