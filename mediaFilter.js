@@ -1,5 +1,9 @@
+/** ツイートのセレクタ  */
 const MEDIA_TARGET_TWEET_SELECTOR = 'article[data-testid="tweet"]';
+/** ツイートに含まれるメディアのセレクタ */
 const MEIDA_TARGET_TWEET_IMAGE_SELECTOR = '[data-testid="tweetPhoto"]';
+/** すでに非表示にしたツイート要素に付与されているdata属性をもとにしたセレクタ */
+const MEDIA_HIDDEN_TWEET_SELECTOR = 'article[data-testid="tweet"][data-hidden]';
 const mediaFilterObserver = new MutationObserver((mutations) => {
   const tweetElements = new Set();
   mutations.forEach((mutation) => {
@@ -44,6 +48,16 @@ function filterExistingTweets(tweetElement) {
 }
 // 初回実行
 initializeMediaFilter();
+// 10秒後にツイートを再表示
+setTimeout(() => {
+  console.log("10秒後にツイートを再表示します");
+  stopMediaFilterObserver();
+  restoreHiddenTweet();
+  console.log(document.querySelectorAll("[data-hidden]").length);
+}, 10000);
+setTimeout(() => {
+  initializeMediaFilter();
+}, 10000);
 // mediaツイートに対してdata属性を付与する関数
 function mediaFilter(tweetElement) {
   if (!tweetElement.dataset.media) {
@@ -90,4 +104,10 @@ function filterAddedTweets(node, tweetElements) {
   if (tmpTweetElement) {
     tweetElements.add(tmpTweetElement);
   }
+}
+function restoreHiddenTweet() {
+  const hiddenTweets = document.querySelectorAll(MEDIA_HIDDEN_TWEET_SELECTOR);
+  hiddenTweets.forEach((tweetElement) => {
+    showTweet(tweetElement);
+  });
 }
