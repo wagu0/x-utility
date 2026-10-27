@@ -353,3 +353,56 @@ body {
   outline: 2px solid #a1a1aa;
   outline-offset: 2px;
 }
+
+/* Feedback & Support */
+.feedback-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 28px;
+  border-top: 1px solid #eeeeef;
+  background: #fafafa;
+}
+
+.feedback-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.feedback-description {
+  margin: 6px 0 0;
+  color: #8b8b93;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.feedback-link {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 16px;
+  border-radius: 8px;
+  background: #18181b;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 550;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.feedback-link:hover {
+  background: #3f3f46;
+}
+
+.feedback-link:active {
+  transform: scale(0.98);
+}
+
+.feedback-link:focus-visible {
+  outline: 2px solid #71717a;
+  outline-offset: 3px;
+}
