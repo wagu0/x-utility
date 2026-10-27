@@ -16,6 +16,7 @@
                 "privateAccountFilter.js",
                 "mediaDefaultImage.js",
                 "accountSwitcher.js",
+                "OtherAccountNotification.js",
                 "mediaFilter.js"
             ],
             "css": [
