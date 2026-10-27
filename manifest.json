@@ -16,7 +16,8 @@
                 "privateAccountFilter.js",
                 "mediaDefaultImage.js",
                 "accountSwitcher.js",
-                "OtherAccountNotification.js"
+                "OtherAccountNotification.js",
+                "mediaFilter.js"
             ],
             "css": [
                 "accountSwitcher.css"
@@ -25,8 +26,7 @@
     ],
     "background": {
         "service_worker": "service_worker.js"
-    }
-    ,
+    },
     "options_page": "options.html",
     "action": {
         "default_icon": {
