@@ -1,0 +1,81 @@
+
+{
+  "extensionDescription": {
+    "message": "Make X (formerly Twitter) easier to use. Save images, like posts, bookmark posts, and more using customizable keyboard shortcuts."
+  },
+  "extensionActionTitle": {
+    "message": "Open shortcut settings"
+  },
+  "settingsDescription": {
+    "message": "Customize your X Utility settings."
+  },
+  "keyboardShortcutsTitle": {
+  "message": "Keyboard Shortcuts"
+  },
+  "saveImageDescription": {
+    "message": "Save images from the hovered post"
+  },
+  "saveImageFileNameExample": {
+    "message": "Example filename: YYYY-MM-DD_username"
+  },
+  "saveImageMultipleFiles": {
+    "message": "Multiple images are numbered"
+  },
+  "shortcutTooltip": {
+    "message": "Click, then press the key you want to assign. Press Esc to cancel."
+  },
+  "shortcutDuplicateError": {
+    "message": "This key is already assigned. Please choose another key."
+  },
+  "likeDescription": {
+    "message": "Like or unlike the hovered post"
+  },
+  "bookmarkDescription": {
+    "message": "Add or remove a bookmark"
+  },
+  "retweetDescription": {
+    "message": "Repost or undo a repost"
+  },
+  "retweetNote": {
+    "message": "Opens a menu to repost or undo a repost"
+  },
+  "openDirectMessageDescription": {
+    "message": "Open the chat"
+  },
+  "openProfilePageDescription": {
+    "message": "Open the profile page"
+  },
+  "featureSettingsTitle": {
+  "message": "Feature Settings"
+  },
+  "mediaDefaultDescription": {
+    "message": "Open the Media tab with photos selected by default"
+  },
+  "privateAccountFilterDescription": {
+    "message": "Blur posts from protected accounts (click to reveal)"
+  },
+  "accountSwitcherDescription": {
+    "message": "Press Shift + Space to open the account switcher"
+  },
+  "hideOtherAccountNotificationsDescription": {
+    "message": "Hide notifications for other accounts in the account menu"
+  },
+  "mediaFilterDescription": {
+    "message": "Press Shift + M to show only posts containing media"
+  },
+  "feedbackDescription": {
+    "message": "Bug reports, feature requests, and feedback are welcome."
+  },
+  "feedbackLink": {
+    "message": "Send Feedback ↗"
+  },
+    "mediaFilterOn": {
+    "message": "Media Filter：ON"
+  },
+  "mediaFilterOff": {
+    "message": "Media Filter：OFF"
+  },
+  "shortcutNotSet": {
+    "message": "Not set"
+  }
+}

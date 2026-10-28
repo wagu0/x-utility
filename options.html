@@ -13,41 +13,45 @@
       <header class="settings-header">
         <h1 class="title">Settings</h1>
 
-        <p class="description">X Utilityの各種設定を変更できます</p>
+        <p class="description" data-i18n="settingsDescription"></p>
       </header>
 
       <section class="settings-list">
-        <!-- Save image -->
+         <!-- ショートカットキー設定 -->
+  <section class="settings-category">
+    <h2
+      class="category-title"
+      data-i18n="keyboardShortcutsTitle"
+    ></h2>
         <div class="shortcut-item" data-action="saveImage">
           <div class="shortcut-info">
             <p class="shortcut-name">Save image</p>
 
             <p class="shortcut-description">
-              ホバーしているポストの画像を保存
+              <span data-i18n="saveImageDescription"></span>
               <br />
-              ※ファイル名例: YYYY-MM-DD_ユーザーネーム
+              <span data-i18n="saveImageFileNameExample"></span>
               <br />
-              複数画像の場合は末尾に番号が付きます
+              <span data-i18n="saveImageMultipleFiles"></span>
             </p>
           </div>
           <div class="shortcut-setting">
             <div class="shortcut-controls">
-              <div class="key">Not set</div>
+              <div class="key" data-i18n="shortcutNotSet"></div>
 
               <div class="record-wrapper">
                 <button class="record-button" type="button">
                   Record shortcut
                 </button>
 
-                <div class="tooltip">
-                  クリックしたあと、設定したいキーを押してください、ESCでキャンセル。
-                </div>
+                <div class="tooltip" data-i18n="shortcutTooltip"></div>
               </div>
               <button class="clear-button" type="button">Clear</button>
             </div>
-            <div class="shortcut-error">
-              このキーはすでに設定されています。別のキーを選択してください。
-            </div>
+            <div
+              class="shortcut-error"
+              data-i18n="shortcutDuplicateError"
+            ></div>
           </div>
         </div>
 
@@ -55,28 +59,25 @@
           <div class="shortcut-info">
             <p class="shortcut-name">Like</p>
 
-            <p class="shortcut-description">
-              ホバーしているポストをいいね、解除
-            </p>
+            <p class="shortcut-description" data-i18n="likeDescription"></p>
           </div>
           <div class="shortcut-setting">
             <div class="shortcut-controls">
-              <div class="key">Not set</div>
+              <div class="key" data-i18n="shortcutNotSet"></div>
 
               <div class="record-wrapper">
                 <button class="record-button" type="button">
                   Record shortcut
                 </button>
 
-                <div class="tooltip">
-                  クリックしたあと、設定したいキーを押してください、ESCでキャンセル。
-                </div>
+                <div class="tooltip" data-i18n="shortcutTooltip"></div>
               </div>
               <button class="clear-button" type="button">Clear</button>
             </div>
-            <div class="shortcut-error">
-              このキーはすでに設定されています。別のキーを選択してください。
-            </div>
+            <div
+              class="shortcut-error"
+              data-i18n="shortcutDuplicateError"
+            ></div>
           </div>
         </div>
 
@@ -84,28 +85,25 @@
           <div class="shortcut-info">
             <p class="shortcut-name">Bookmark</p>
 
-            <p class="shortcut-description">
-              ホバーしているポストをブックマーク、解除
-            </p>
+            <p class="shortcut-description" data-i18n="bookmarkDescription"></p>
           </div>
           <div class="shortcut-setting">
             <div class="shortcut-controls">
-              <div class="key">Not set</div>
+              <div class="key" data-i18n="shortcutNotSet"></div>
 
               <div class="record-wrapper">
                 <button class="record-button" type="button">
                   Record shortcut
                 </button>
 
-                <div class="tooltip">
-                  クリックしたあと、設定したいキーを押してください、ESCでキャンセル。
-                </div>
+                <div class="tooltip" data-i18n="shortcutTooltip"></div>
               </div>
               <button class="clear-button" type="button">Clear</button>
             </div>
-            <div class="shortcut-error">
-              このキーはすでに設定されています。別のキーを選択してください。
-            </div>
+            <div
+              class="shortcut-error"
+              data-i18n="shortcutDuplicateError"
+            ></div>
           </div>
         </div>
 
@@ -114,56 +112,58 @@
             <p class="shortcut-name">Repost</p>
 
             <p class="shortcut-description">
-              ホバーしているポストのリポスト、解除
+              <span data-i18n="retweetDescription"></span>
               <br />
-              ※リポストまたは解除の選択画面が開かれます
+              <span data-i18n="retweetNote"></span>
             </p>
           </div>
           <div class="shortcut-setting">
             <div class="shortcut-controls">
-              <div class="key">Not set</div>
+              <div class="key" data-i18n="shortcutNotSet"></div>
 
               <div class="record-wrapper">
                 <button class="record-button" type="button">
                   Record shortcut
                 </button>
 
-                <div class="tooltip">
-                  クリックしたあと、設定したいキーを押してください、ESCでキャンセル。
-                </div>
+                <div class="tooltip" data-i18n="shortcutTooltip"></div>
               </div>
               <button class="clear-button" type="button">Clear</button>
             </div>
-            <div class="shortcut-error">
-              このキーはすでに設定されています。別のキーを選択してください。
-            </div>
+            <div
+              class="shortcut-error"
+              data-i18n="shortcutDuplicateError"
+            ></div>
           </div>
         </div>
+        </section>
 
         <div class="shortcut-item" data-action="openDirectMessage">
           <div class="shortcut-info">
             <p class="shortcut-name">Open Chat</p>
 
-            <p class="shortcut-description">チャットを開く</p>
+            <p
+              class="shortcut-description"
+              data-i18n="openDirectMessageDescription"
+            ></p>
           </div>
           <div class="shortcut-setting">
             <div class="shortcut-controls">
-              <div class="key">Not set</div>
+              <div class="key" data-i18n="shortcutNotSet"></div>
 
               <div class="record-wrapper">
                 <button class="record-button" type="button">
                   Record shortcut
                 </button>
 
-                <div class="tooltip">
-                  クリックしたあと、設定したいキーを押してください、ESCでキャンセル。
-                </div>
+                <div class="tooltip" data-i18n="shortcutTooltip"></div>
               </div>
               <button class="clear-button" type="button">Clear</button>
             </div>
-            <div class="shortcut-error">
-              このキーはすでに設定されています。別のキーを選択してください。
-            </div>
+            <div
+              class="shortcut-error"
+              data-i18n="shortcutDuplicateError"
+            ></div>
           </div>
         </div>
 
@@ -171,34 +171,46 @@
           <div class="shortcut-info">
             <p class="shortcut-name">Open Profile</p>
 
-            <p class="shortcut-description">プロフィールページを開く</p>
+            <p
+              class="shortcut-description"
+              data-i18n="openProfilePageDescription"
+            ></p>
           </div>
           <div class="shortcut-setting">
             <div class="shortcut-controls">
-              <div class="key">Not set</div>
+              <div class="key" data-i18n="shortcutNotSet"></div>
 
               <div class="record-wrapper">
                 <button class="record-button" type="button">
                   Record shortcut
                 </button>
 
-                <div class="tooltip">
-                  クリックしたあと、設定したいキーを押してください、ESCでキャンセル。
-                </div>
+                <div class="tooltip" data-i18n="shortcutTooltip"></div>
               </div>
               <button class="clear-button" type="button">Clear</button>
             </div>
-            <div class="shortcut-error">
-              このキーはすでに設定されています。別のキーを選択してください。
-            </div>
+            <div
+              class="shortcut-error"
+              data-i18n="shortcutDuplicateError"
+            ></div>
           </div>
         </div>
+      </section>
+       <!-- 機能設定 -->
+  <section class="settings-category">
+    <h2
+      class="category-title"
+      data-i18n="featureSettingsTitle"
+    ></h2>
 
         <div class="setting-item">
           <div class="setting-info">
-            <p class="setting-name">Media Default</p>
+            <p class="setting-name">Media Default Image</p>
 
-            <p class="setting-description">メディアページの標準を画像で開く</p>
+            <p
+              class="setting-description"
+              data-i18n="mediaDefaultDescription"
+            ></p>
           </div>
           <div class="setting-controls">
             <input
@@ -213,9 +225,7 @@
           <div class="setting-info">
             <p class="setting-name">Private Account Filter</p>
 
-            <p class="setting-description">
-              鍵付きアカウントのポストをぼかして表示する（クリックで解除）
-            </p>
+            <p class="setting-description" data-i18n="privateAccountFilterDescription"></p>
           </div>
           <div class="setting-controls">
             <input
@@ -230,8 +240,7 @@
           <div class="setting-info">
             <p class="setting-name">Account Switcher</p>
 
-            <p class="setting-description">
-              shift+spaceでアカウント切り替えメニューを表示
+            <p class="setting-description" data-i18n="accountSwitcherDescription"></p>
             </p>
           </div>
           <div class="setting-controls">
@@ -246,8 +255,7 @@
           <div class="setting-info">
             <p class="setting-name">Hide Other Account Notifications</p>
 
-            <p class="setting-description">
-              アカウントメニューに表示される別のアカウントの通知を非表示にする
+            <p class="setting-description" data-i18n="hideOtherAccountNotificationsDescription"></p>
             </p>
           </div>
           <div class="setting-controls">
@@ -263,8 +271,7 @@
           <div class="setting-info">
             <p class="setting-name">Media Filter</p>
 
-            <p class="setting-description">
-              shift+mで表示するツイートをメディアのみに変更
+            <p class="setting-description" data-i18n="mediaFilterDescription"></p>
             </p>
           </div>
           <div class="setting-controls">
@@ -276,23 +283,20 @@
           </div>
         </div>
       </section>
+      </section>
 
       <section class="feedback-section">
         <div class="feedback-info">
           <h2 class="feedback-title">Feedback & Support</h2>
-          <p class="feedback-description">
-            バグ報告・機能要望・ご意見をお寄せください。<br />
-            Bug reports, feature requests, and feedback are welcome.
-          </p>
+          <p class="feedback-description" data-i18n="feedbackDescription"></p>
         </div>
         <a
-          class="feedback-link"
+          class="feedback-link" 
           href="https://docs.google.com/forms/d/e/1FAIpQLScCXT3sUnWH7_Kr08QQAYjAumUYvaZY1KPCkBCQvQCYA9smPw/viewform?usp=publish-editor"
           target="_blank"
           rel="noopener noreferrer"
-        >
-          Send Feedback ↗
-        </a>
+          data-i18n="feedbackLink"
+        ></a>
       </section>
     </main>
   </body>

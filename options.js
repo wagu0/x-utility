@@ -10,11 +10,15 @@ const IS_RECORDING_CLASS = "is-recording";
 const KEY_CLASS = ".key";
 const SETTINGS_STORAGE_KEY = "settings";
 // 初期処理
+document.documentElement.lang = chrome.i18n
+  .getMessage("@@ui_locale")
+  .replace("_", "-");
 setUpRecordButton();
 setUpClearButton();
 setUpSettingCheckboxes();
 loadShortcutSettings();
 loadSetting();
+setI18nElement();
 //　すべてのショートカットボタンにイベントを設定する
 function setUpRecordButton() {
   const shortcutButtons = document.querySelectorAll(RECORD_BUTTON_CLASS);
@@ -119,7 +123,7 @@ function clearShortcutSetting(shortcutItem) {
   const targetAction = shortcutItem.dataset.action;
   chrome.storage.local.remove(targetAction);
   const keyElement = shortcutItem.querySelector(KEY_CLASS);
-  keyElement.textContent = "Not set";
+  keyElement.textContent = chrome.i18n.getMessage("shortcutNotSet");
 }
 // キーからアクション名を取得する関数
 async function getActionName(key) {
@@ -180,4 +184,13 @@ async function loadSetting() {
     // 存在しない場合はfalseにする
     checkbox.checked = Boolean(settings[checkbox.dataset.setting]);
   }
+}
+// i18n要素のテキストを設定する関数
+function setI18nElement() {
+  const translateTargets = document.querySelectorAll("[data-i18n]");
+  translateTargets.forEach((target) => {
+    const key = target.dataset.i18n;
+    const message = chrome.i18n.getMessage(key);
+    target.textContent = message;
+  });
 }
