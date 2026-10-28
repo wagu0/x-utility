@@ -29,6 +29,18 @@ X（旧Twitter）で、マウスを重ねたポストへの操作や画像の保
 
 リポストの確定は、開いたメニューで行います。
 
+設定画面の「機能設定」では、以下の機能を個別に有効・無効にできます。初期状態では無効です。
+
+| 機能 | 動作 |
+| --- | --- |
+| Media Default Image | プロフィールのメディアページを開いたとき、画像のフィルターを自動で選択する |
+| Private Account Filter | 鍵付きアカウントのポストをぼかす。対象のポストをクリックするとぼかしを解除する |
+| Account Switcher | Shift + SpaceでXのアカウント切り替えメニューを開き、画面中央に表示する |
+| Hide Other Account Notifications | アカウントメニューのボタンに表示される、別アカウントの未読通知表示を隠す |
+| Media Filter | Shift + Mでメディアを含むポストだけの表示と通常表示を切り替え、ON/OFFを通知する |
+
+Account SwitcherとMedia Filterのキーは固定で、ショートカット登録の対象ではありません。Media Filterはポスト内の `data-testid="tweetPhoto"` を使ってメディアを判定しています。
+
 ## 使い方
 
 1. Chrome Web Storeからインストールし、拡張機能のアイコンから設定画面を開きます。
@@ -38,6 +50,10 @@ X（旧Twitter）で、マウスを重ねたポストへの操作や画像の保
 チャットとプロフィールを開く操作では、ポストにマウスを重ねる必要はありません。
 
 画像の保存先には、ブラウザのダウンロード先にある `X_Images` フォルダを指定します。ファイル名は投稿の日付やユーザーIDなどから生成します。
+
+追加機能を使う場合は、設定画面の「機能設定」で対象のスイッチをオンにします。Account Switcherは **Shift + Space**、Media Filterは **Shift + M** で操作します。入力欄で文字を入力している間は、これらのショートカットは動作しません。
+
+設定画面の **Send Feedback ↗** から、バグ報告や機能要望を送るフォームを開けます。
 
 ## 技術・構成
 
@@ -49,6 +65,12 @@ JavaScript・HTML・CSSと、Chrome拡張機能のManifest V3を使用してい�
 | [content.js](content.js) | X上でのキー入力、ホバー対象の取得、DOM操作 |
 | [service_worker.js](service_worker.js) | 画像のダウンロード要求、設定画面の起動 |
 | [options.html](options.html) / [options.js](options.js) / [options.css](options.css) | ショートカット設定画面と設定の保存 |
+| [mediaDefaultImage.js](mediaDefaultImage.js) | メディアページで画像フィルターを自動選択 |
+| [privateAccountFilter.js](privateAccountFilter.js) | 鍵付きアカウントのポストのぼかしと解除 |
+| [accountSwitcher.js](accountSwitcher.js) / [accountSwitcher.css](accountSwitcher.css) | アカウント切り替えメニューの起動と中央表示 |
+| [otherAccountNotification.js](otherAccountNotification.js) | 別アカウントの未読通知表示を非表示にする処理 |
+| [mediaFilter.js](mediaFilter.js) | メディアを含むポストへの絞り込みと解除 |
+| [_locales/ja/messages.json](_locales/ja/messages.json) / [_locales/en/messages.json](_locales/en/messages.json) | 日本語・英語の翻訳メッセージ |
 
 設定は `chrome.storage.local` に保存し、`chrome.storage.onChanged` で変更をXページに反映します。宣言している権限は、設定保存用の `storage` と画像保存用の `downloads` です。
 
