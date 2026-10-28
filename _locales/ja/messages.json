@@ -1,0 +1,80 @@
+{
+  "extensionDescription": {
+    "message": "X（旧Twitter）をより便利に使うための拡張機能です。画像保存やいいね、ブックマークなどを、自分で設定したショートカットキーで操作できます。"
+  },
+    "extensionActionTitle": {
+    "message": "ショートカット設定を開く"
+  },
+  "settingsDescription": {
+    "message": "X Utilityの各種設定を変更できます"
+  },
+  "keyboardShortcutsTitle": {
+  "message": "ショートカットキー設定"
+},
+  "saveImageDescription": {
+    "message": "ホバーしているポストの画像を保存"
+  },
+  "saveImageFileNameExample": {
+    "message": "※ファイル名例: YYYY-MM-DD_ユーザーネーム"
+  },
+  "saveImageMultipleFiles": {
+    "message": "複数画像の場合は末尾に番号が付きます"
+  },
+  "shortcutTooltip": {
+    "message": "クリックしたあと、設定したいキーを押してください、ESCでキャンセル"
+  },
+  "shortcutDuplicateError": {
+    "message": "このキーはすでに設定されています。別のキーを選択してください"
+  },
+  "likeDescription": {
+    "message": "ホバーしているポストをいいね、解除"
+  },
+  "bookmarkDescription": {
+    "message": "ホバーしているポストをブックマーク、解除"
+  },
+  "retweetDescription": {
+    "message": "ホバーしているポストをリポスト、解除"
+  },
+  "retweetNote": {
+    "message": "※リポストまたは解除の選択画面が開かれます"
+  },
+  "openDirectMessageDescription": {
+        "message":"チャットを開く"
+  },
+  "openProfilePageDescription": {
+    "message":"プロフィールページを開く"
+  },
+  "featureSettingsTitle": {
+  "message": "機能設定"
+  },
+  "mediaDefaultDescription": {
+    "message": "メディアページの標準を画像で開く"
+  },
+  "privateAccountFilterDescription": {
+    "message": "鍵付きアカウントのポストをぼかして表示する（クリックで解除）"
+  },
+  "accountSwitcherDescription": {
+    "message": "Shift + Spaceでアカウント切り替えメニューを表示"
+  },
+  "hideOtherAccountNotificationsDescription": {
+    "message": "アカウントメニューに表示される別のアカウントの通知を非表示にする"
+  },
+  "mediaFilterDescription": {
+    "message": "Shift + Mで表示するツイートをメディアのみに変更"
+  },
+  "feedbackDescription": {
+    "message": "バグ報告・機能要望・ご意見をお寄せください"
+  },
+  "feedbackLink": {
+    "message": "Send Feedback ↗"
+  },
+  "mediaFilterOn": {
+    "message": "メディアフィルター：ON"
+  },
+  "mediaFilterOff": {
+    "message": "メディアフィルター：OFF"
+  },
+  "shortcutNotSet": {
+    "message": "未設定"
+  }
+}

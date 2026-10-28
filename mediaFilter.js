@@ -90,7 +90,7 @@ function toggleMediaFilter() {
   if (isMediaFilterActive) {
     stopMediaFilterObserver();
     restoreHiddenTweet();
-    showMediaFilterNotification("Media Filter: OFF");
+    showMediaFilterNotification(chrome.i18n.getMessage("mediaFilterOff"));
     isMediaFilterActive = false;
     return;
   }
@@ -100,7 +100,7 @@ function toggleMediaFilter() {
       childList: true,
       subtree: true,
     });
-    showMediaFilterNotification("Media Filter: ON");
+    showMediaFilterNotification(chrome.i18n.getMessage("mediaFilterOn"));
     isMediaFilterActive = true;
   }
 }

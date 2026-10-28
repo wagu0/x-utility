@@ -18,15 +18,15 @@ body {
     "Segoe UI",
     sans-serif;
 
-  background: #f6f7f9;
-  color: #18181b;
+  background: #252d3a;
+  color: #CDD5DF
 }
 
 .settings {
   width: 620px;
 
-  background: #ffffff;
-  border: 1px solid #e6e6e9;
+  background: #323d4d;
+  border: 1px solid #4c596b;
   border-radius: 18px;
 
   box-shadow:
@@ -51,13 +51,13 @@ body {
 .description {
   margin: 7px 0 0;
 
-  color: #71717a;
+  color: #b5c0cf;
   font-size: 14px;
   line-height: 1.5;
 }
 
 .settings-list {
-  border-top: 1px solid #eeeeef;
+  border-top: 1px solid #4c596b;
 }
 
 /*
@@ -76,11 +76,7 @@ body {
   min-height: 82px;
   padding: 18px 28px;
 
-  border-bottom: 1px solid #eeeeef;
-}
-
-.shortcut-item:last-child {
-  border-bottom: none;
+  border-bottom: 1px solid #4c596b;
 }
 
 .shortcut-info,
@@ -100,7 +96,7 @@ body {
 .setting-description {
   margin: 5px 0 0;
 
-  color: #8b8b93;
+  color: #b5c0cf;
   font-size: 12px;
 }
 
@@ -125,9 +121,9 @@ body {
 
   padding: 0 12px;
 
-  background: #fafafa;
+  background: #2c3644;
 
-  border: 1px solid #d8d8dd;
+  border: 1px solid #8192a8;
   border-bottom-width: 3px;
   border-radius: 8px;
 
@@ -147,11 +143,11 @@ body {
 
   padding: 0 14px;
 
-  border: 1px solid #dddddf;
+  border: 1px solid #8192a8;
   border-radius: 8px;
 
-  background: #ffffff;
-  color: #3f3f46;
+  background: #323d4d;
+  color: #e3e8ef;
 
   font-family: inherit;
   font-size: 13px;
@@ -165,12 +161,12 @@ body {
     transform 0.1s ease;
 }
 
-.record-button:hover {
-  background: #f6f6f7;
-  border-color: #ccccd0;
+.record-button:hover:not(:disabled) {
+  background: #435268;
+  border-color: #91b2d7;
 }
 
-.record-button:active {
+.record-button:active:not(:disabled) {
   transform: scale(0.98);
 }
 
@@ -178,9 +174,9 @@ body {
   height: 38px;
   padding: 0 14px;
   border-radius: 8px;
-  color: #b42318;
-  border: 1px solid #f0b8b3;
-  background: #fffafa;
+  color: #f0aaa6;
+  border: 1px solid #b78283;
+  background: #443b47;
   font-family: inherit;
   font-size: 13px;
   font-weight: 550;
@@ -191,12 +187,12 @@ body {
     border-color 0.15s ease,
     transform 0.1s ease;
 }
-.clear-button:hover {
-  background: #fff1f0;
-  border-color: #e89b94;
+.clear-button:hover:not(:disabled) {
+  background: #53434f;
+  border-color: #d9a09d;
 }
 
-.clear-button:active {
+.clear-button:active:not(:disabled) {
   transform: scale(0.98);
 }
 /*
@@ -213,8 +209,8 @@ body {
 
   padding: 8px 10px;
 
-  background: #18181b;
-  color: #ffffff;
+  background: #202936;
+  color: #e3e8ef;
 
   border-radius: 7px;
 
@@ -245,7 +241,7 @@ body {
   top: 100%;
 
   border: 5px solid transparent;
-  border-top-color: #18181b;
+  border-top-color: #202936;
 }
 
 .record-wrapper:hover .tooltip {
@@ -259,16 +255,16 @@ body {
       JS実装時に使う予定のrecording状態
     */
 .shortcut-item.is-recording .key {
-  border-color: #a1a1aa;
-  background: #ffffff;
+  border-color: #91b2d7;
+  background: #323d4d;
 
-  color: #71717a;
+  color: #b5c0cf;
 }
 
 .shortcut-item.is-recording .record-button {
-  background: #18181b;
-  border-color: #18181b;
-  color: #ffffff;
+  background: #7199c6;
+  border-color: #91b2d7;
+  color: #202936;
 }
 
 /*
@@ -279,7 +275,7 @@ body {
 }
 
 .shortcut-item:hover {
-  background: #fcfcfd;
+  background: #374354;
 }
 .shortcut-error {
   display: none;
@@ -289,7 +285,7 @@ body {
 
   margin: 0 0 10px;
 
-  color: #b42318;
+  color: #f0aaa6;
   font-size: 12px;
 }
 .shortcut-setting,
@@ -307,8 +303,8 @@ body {
 
   margin: 0;
 
-  background: #e4e4e7;
-  border: 1px solid #d8d8dd;
+  background: #46546a;
+  border: 1px solid #8192a8;
   border-radius: 999px;
 
   position: relative;
@@ -330,7 +326,7 @@ body {
   width: 18px;
   height: 18px;
 
-  background: #ffffff;
+  background: #e3e8ef;
   border-radius: 50%;
 
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
@@ -340,8 +336,8 @@ body {
 
 /* ON */
 .setting-checkbox:checked {
-  background: #18181b;
-  border-color: #18181b;
+  background: #7199c6;
+  border-color: #91b2d7;
 }
 
 .setting-checkbox:checked::after {
@@ -350,7 +346,7 @@ body {
 
 /* キーボード操作時 */
 .setting-checkbox:focus-visible {
-  outline: 2px solid #a1a1aa;
+  outline: 2px solid #91b2d7;
   outline-offset: 2px;
 }
 
@@ -361,8 +357,8 @@ body {
   justify-content: space-between;
   gap: 24px;
   padding: 24px 28px;
-  border-top: 1px solid #eeeeef;
-  background: #fafafa;
+  border-top: 1px solid #4c596b;
+  background: #2c3644;
 }
 
 .feedback-title {
@@ -373,7 +369,7 @@ body {
 
 .feedback-description {
   margin: 6px 0 0;
-  color: #8b8b93;
+  color: #b5c0cf;
   font-size: 12px;
   line-height: 1.6;
 }
@@ -385,8 +381,8 @@ body {
   justify-content: center;
   padding: 11px 16px;
   border-radius: 8px;
-  background: #18181b;
-  color: #ffffff;
+  background: #7199c6;
+  color: #202936;
   font-size: 13px;
   font-weight: 550;
   text-decoration: none;
@@ -395,7 +391,7 @@ body {
 }
 
 .feedback-link:hover {
-  background: #3f3f46;
+  background: #87abd2;
 }
 
 .feedback-link:active {
@@ -403,6 +399,63 @@ body {
 }
 
 .feedback-link:focus-visible {
-  outline: 2px solid #71717a;
+  outline: 2px solid #91b2d7;
   outline-offset: 3px;
+}
+/* 設定カテゴリ */
+.settings-category {
+  border-bottom: 1px solid #4c596b;
+}
+
+.settings-category:last-child {
+  border-bottom: none;
+}
+
+/* カテゴリ見出し */
+.category-title {
+  margin: 0;
+  padding: 16px 28px;
+
+  background: #3d4a5c;
+  color: #e3e8ef;
+
+  font-size: 15px;
+  font-weight: 650;
+
+  border-bottom: 1px solid #4c596b;
+}
+
+/* カテゴリ内の最後の設定項目 */
+.settings-category > .shortcut-item:last-child,
+.settings-category > .setting-item:last-child {
+  border-bottom: none;
+}
+/* ボタンもキーボード操作時のフォーカスを明示する。 */
+.record-button:focus-visible,
+.clear-button:focus-visible {
+  outline: 2px solid #91b2d7;
+  outline-offset: 2px;
+}
+
+/* 記録中の指定より優先し、無効状態の文字は薄くしすぎない。 */
+.shortcut-item .record-button:disabled,
+.shortcut-item .clear-button:disabled {
+  background: #2c3644;
+  border-color: #59677a;
+  color: #aab6c5;
+  cursor: not-allowed;
+}
+
+.setting-checkbox:disabled {
+  background: #394454;
+  border-color: #68788e;
+  cursor: not-allowed;
+}
+
+.setting-checkbox:disabled:checked {
+  background: #526b87;
+}
+
+.setting-checkbox:disabled::after {
+  background: #aab6c5;
 }
