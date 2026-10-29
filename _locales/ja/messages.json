@@ -74,6 +74,12 @@
   "mediaFilterOff": {
     "message": "メディアフィルター：OFF"
   },
+  "privateAccountFilterOn": {
+    "message": "プライベートアカウントフィルター：ON"
+  },
+  "privateAccountFilterOff": {
+    "message": "プライベートアカウントフィルター：OFF"
+  },
   "shortcutNotSet": {
     "message": "未設定"
   }

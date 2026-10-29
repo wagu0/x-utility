@@ -6,8 +6,10 @@ const PRIVATE_ACCOUNT_SELECTOR = '[data-testid="icon-lock"]';
 const TARGET_TWEET_SELECTOR = 'article[data-testid="tweet"]';
 /** observerの定義 */
 const privateTweetObserver = new MutationObserver(handleTweetMutations);
-// 最後に変更された設定の状態
-let lastPrivateAccountFilterSetting = null;
+/**  privateAccountFIlterの現在の設定 */
+let lastPrivateAccountFilterEnabled = false;
+/** 現在のフィルターの状態 */
+let isPrivateAccountFilterActive = false;
 
 // 初期処理
 initializePrivateAccountFilter();
@@ -19,11 +21,9 @@ async function initializePrivateAccountFilter() {
 
   // 最後の設定の状態を保存
   if (privateAccountFilterSetting === true) {
-    observeTweets();
-    processExistingTweets();
-    lastPrivateAccountFilterSetting = true;
+    lastPrivateAccountFilterEnabled = true;
   } else if (privateAccountFilterSetting === false) {
-    lastPrivateAccountFilterSetting = false;
+    lastPrivateAccountFilterEnabled = false;
     return;
   }
 }
@@ -36,22 +36,67 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
         PRIVATE_ACCOUNT_FILTER_SETTING_KEY
       ] === true;
     // 最後に反映した設定値と同じ場合は処理しない
-    if (newValue === lastPrivateAccountFilterSetting) {
+    if (newValue === lastPrivateAccountFilterEnabled) {
       return;
     }
     if (newValue === true) {
-      observeTweets();
-      processExistingTweets();
       // 最後に変更された設定の状態を更新
-      lastPrivateAccountFilterSetting = true;
+      lastPrivateAccountFilterEnabled = true;
     } else if (newValue === false) {
-      stopPrivateTweetObserver();
-      resetAllPrivateTweetBlur();
+      if (isPrivateAccountFilterActive === true) {
+        disablePrivateAccountFilter();
+      }
       // 最後に変更された設定の状態を更新
-      lastPrivateAccountFilterSetting = false;
+      lastPrivateAccountFilterEnabled = false;
     }
   }
 });
+// keydownイベント
+document.addEventListener("keydown", (event) => {
+  const isShiftP =
+    event.key === "P" &&
+    event.shiftKey &&
+    !event.ctrlKey &&
+    !event.altKey &&
+    !event.metaKey;
+
+  if (!isShiftP || event.repeat) {
+    return;
+  }
+  // フォームの入力欄（ツイート検索やリプ欄など）でタイピングしている時は動作させないためのガード
+  if (
+    event.target.tagName === "INPUT" ||
+    event.target.tagName === "TEXTAREA" ||
+    event.target.isContentEditable
+  ) {
+    return;
+  }
+  // 現在の設定がオフの場合はreturn
+  if (!lastPrivateAccountFilterEnabled) {
+    return;
+  }
+  event.preventDefault();
+  // 状態に合わせてfilterを変更
+  if (isPrivateAccountFilterActive === true) {
+    disablePrivateAccountFilter();
+  } else if (isPrivateAccountFilterActive === false) {
+    enablePrivateAccountFilter();
+  }
+});
+// privateAccountFilterをオンにする関数
+function enablePrivateAccountFilter() {
+  observeTweets();
+  processExistingTweets();
+  showNotification(chrome.i18n.getMessage("privateAccountFilterOn"));
+  isPrivateAccountFilterActive = true;
+}
+// privateAccountFilterをオフにする関数
+function disablePrivateAccountFilter() {
+  stopPrivateTweetObserver();
+  resetAllPrivateTweetBlur();
+  showNotification(chrome.i18n.getMessage("privateAccountFilterOff"));
+  isPrivateAccountFilterActive = false;
+}
 // ツイート要素を監視して、プライベートアカウントのアイコンが存在する場合にぼかしを適用する
 function observeTweets() {
   privateTweetObserver.observe(document.body, {
