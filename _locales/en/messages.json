@@ -69,6 +69,12 @@
   "feedbackLink": {
     "message": "Send Feedback ↗"
   },
+    "imageSaving":{
+    "message": "Saving image..."
+  },
+  "imageSavingFailed":{
+    "message": "Failed to save image."
+  },
     "mediaFilterOn": {
     "message": "Media Filter：ON"
   },

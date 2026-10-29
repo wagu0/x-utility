@@ -216,9 +216,15 @@ function saveImage() {
             return;
           }
           if (response && response.success) {
-            showImageSaveNotification("画像を保存しています...", "success");
+            showImageSaveNotification(
+              chrome.i18n.getMessage("imageSaving"),
+              "success",
+            );
           } else {
-            showImageSaveNotification("画像の保存に失敗しました", "error");
+            showImageSaveNotification(
+              chrome.i18n.getMessage("imageSavingFailed"),
+              "error",
+            );
           }
         },
       );
