@@ -69,11 +69,23 @@
   "feedbackLink": {
     "message": "Send Feedback ↗"
   },
+    "imageSaving":{
+    "message": "Saving image..."
+  },
+  "imageSavingFailed":{
+    "message": "Failed to save image."
+  },
     "mediaFilterOn": {
     "message": "Media Filter：ON"
   },
   "mediaFilterOff": {
     "message": "Media Filter：OFF"
+  },
+    "privateAccountFilterOn": {
+    "message": "Private Account Filter：ON"
+  },
+  "privateAccountFilterOff": {
+    "message": "Private Account Filter：OFF"
   },
   "shortcutNotSet": {
     "message": "Not set"

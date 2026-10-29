@@ -68,11 +68,23 @@
   "feedbackLink": {
     "message": "Send Feedback ↗"
   },
+  "imageSaving":{
+    "message": "画像を保存しています..."
+  },
+  "imageSavingFailed":{
+    "message": "画像の保存に失敗しました"
+  },
   "mediaFilterOn": {
     "message": "メディアフィルター：ON"
   },
   "mediaFilterOff": {
     "message": "メディアフィルター：OFF"
+  },
+  "privateAccountFilterOn": {
+    "message": "プライベートアカウントフィルター：ON"
+  },
+  "privateAccountFilterOff": {
+    "message": "プライベートアカウントフィルター：OFF"
   },
   "shortcutNotSet": {
     "message": "未設定"

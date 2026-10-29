@@ -216,9 +216,15 @@ function saveImage() {
             return;
           }
           if (response && response.success) {
-            showNotification("画像を保存しています...", "success");
+            showImageSaveNotification(
+              chrome.i18n.getMessage("imageSaving"),
+              "success",
+            );
           } else {
-            showNotification("画像の保存に失敗しました", "error");
+            showImageSaveNotification(
+              chrome.i18n.getMessage("imageSavingFailed"),
+              "error",
+            );
           }
         },
       );
@@ -227,10 +233,8 @@ function saveImage() {
     }
   }
 }
-/**
- * 通知を表示
- */
-function showNotification(message, type) {
+// 画像保存時の通知を表示する関数
+function showImageSaveNotification(message, type) {
   const nav = document.createElement("nav");
 
   nav.innerHTML = `
@@ -356,4 +360,39 @@ function openProfilePage() {
   }
   profileButton.click();
   return;
+}
+// 共通化用通知関数
+function showNotification(message) {
+  const notificationId = "notification";
+
+  // 前の通知があれば削除
+  document.getElementById(notificationId)?.remove();
+
+  const notification = document.createElement("div");
+  notification.id = notificationId;
+
+  Object.assign(notification.style, {
+    position: "fixed",
+    bottom: "8%",
+    left: "50%",
+    transform: "translateX(-50%)",
+    zIndex: "99999",
+    backgroundColor: "rgba(0, 0, 0, 0.85)",
+    color: "#ffffff",
+    padding: "12px 24px",
+    borderRadius: "12px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
+    fontSize: "18px",
+    fontFamily: "sans-serif",
+    textAlign: "center",
+    pointerEvents: "none",
+  });
+
+  notification.textContent = message;
+  document.body.appendChild(notification);
+
+  // 1.5秒後に、この通知要素だけ削除
+  setTimeout(() => {
+    notification.remove();
+  }, 1500);
 }

@@ -90,7 +90,7 @@ function toggleMediaFilter() {
   if (isMediaFilterActive) {
     stopMediaFilterObserver();
     restoreHiddenTweet();
-    showMediaFilterNotification(chrome.i18n.getMessage("mediaFilterOff"));
+    showNotification(chrome.i18n.getMessage("mediaFilterOff"));
     isMediaFilterActive = false;
     return;
   }
@@ -100,7 +100,7 @@ function toggleMediaFilter() {
       childList: true,
       subtree: true,
     });
-    showMediaFilterNotification(chrome.i18n.getMessage("mediaFilterOn"));
+    showNotification(chrome.i18n.getMessage("mediaFilterOn"));
     isMediaFilterActive = true;
   }
 }
@@ -189,39 +189,4 @@ function hideTweet(tweetElement) {
 function showTweet(tweetElement) {
   delete tweetElement.dataset.hidden;
   tweetElement.style.removeProperty("display");
-}
-// メディアフィルターのON/OFF通知
-function showMediaFilterNotification(message) {
-  const notificationId = "media-filter-notification";
-
-  // 前のメディアフィルター通知があれば削除
-  document.getElementById(notificationId)?.remove();
-
-  const notification = document.createElement("div");
-  notification.id = notificationId;
-
-  Object.assign(notification.style, {
-    position: "fixed",
-    bottom: "8%",
-    left: "50%",
-    transform: "translateX(-50%)",
-    zIndex: "99999",
-    backgroundColor: "rgba(0, 0, 0, 0.85)",
-    color: "#ffffff",
-    padding: "12px 24px",
-    borderRadius: "12px",
-    boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
-    fontSize: "18px",
-    fontFamily: "sans-serif",
-    textAlign: "center",
-    pointerEvents: "none",
-  });
-
-  notification.textContent = message;
-  document.body.appendChild(notification);
-
-  // 1.5秒後に、この通知要素だけ削除
-  setTimeout(() => {
-    notification.remove();
-  }, 1500);
 }
