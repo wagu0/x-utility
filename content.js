@@ -235,43 +235,64 @@ function saveImage() {
 }
 // 画像保存時の通知を表示する関数
 function showImageSaveNotification(message, type) {
-  const nav = document.createElement("nav");
+  const containerId = "image-save-notifications";
+  let container = document.getElementById(containerId);
 
-  nav.innerHTML = `
-<style>
-.notification {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 99999;
-    background-color: rgba(0, 0, 0, 0.85);
-    padding: 20px 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  // コンテナが存在しなければ作成
+  if (!container) {
+    container = document.createElement("div");
+    container.id = containerId;
+
+    Object.assign(container.style, {
+      position: "fixed",
+      top: "75%",
+      left: "50%",
+      transform: "translateX(-50%)",
+      zIndex: "99999",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "8px",
+      pointerEvents: "none",
+    });
+
+    document.body.appendChild(container);
+  }
+
+  // 通知要素を作成
+  const notification = document.createElement("div");
+
+  Object.assign(notification.style, {
+    backgroundColor:
+      type === "error" ? "rgba(180, 35, 24, 0.95)" : "rgba(0, 0, 0, 0.85)",
+    color: "#ffffff",
+    padding: "12px 24px",
+    borderRadius: "12px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
+    fontSize: "18px",
+    fontFamily: "sans-serif",
+    textAlign: "center",
+  });
+
+  notification.textContent = message;
+  container.appendChild(notification);
+
+  // 最大3件まで表示
+  if (container.children.length > 3) {
+    container.firstElementChild.remove();
+  }
+
+  // 1.5秒後に通知を削除
+  setTimeout(() => {
+    notification.remove();
+
+    // 通知がすべて消えたらコンテナも削除
+    if (container.children.length === 0) {
+      container.remove();
+    }
+  }, 1500);
 }
 
-.notification.error {
-    background-color: rgba(180, 35, 24, 0.95);
-}
-
-.notification h3 {
-    color: #ffffff;
-    font-size: 24px;
-    font-family: sans-serif;
-    margin: 0;
-    text-align: center;
-}
-</style>
-
-<div class="notification ${type}">
-  <h3>${message}</h3>
-</div>`;
-  // UIを画面に表示
-  const element = document.body.appendChild(nav);
-  // 1.5秒後に表示を削除
-  setTimeout(() => element.remove(), 1500);
-}
 // ユーザーIDを取得する関数
 // 現状aタグのhrefの1個目と2個目が/ユーザー名となっているため1個目のaタグのhrefからユーザーIDを取得する想定
 function findUserID(userNameElement) {
