@@ -1,4 +1,3 @@
-
 {
   "extensionDescription": {
     "message": "Make X (formerly Twitter) easier to use. Save images, like posts, bookmark posts, and more using customizable keyboard shortcuts."
@@ -10,12 +9,12 @@
     "message": "Customize your X Utility settings."
   },
   "keyboardShortcutsTitle": {
-  "message": "Keyboard Shortcuts"
+    "message": "Keyboard Shortcuts"
   },
   "saveImageDescription": {
     "message": "Save images from the hovered post"
   },
-    "saveImageFolder": {
+  "saveImageFolder": {
     "message": "Saved to: Downloads/X_Images"
   },
   "saveImageFileNameExample": {
@@ -49,7 +48,7 @@
     "message": "Open the profile page"
   },
   "featureSettingsTitle": {
-  "message": "Feature Settings"
+    "message": "Feature Settings"
   },
   "mediaDefaultDescription": {
     "message": "Open the Media tab with photos selected by default"
@@ -72,19 +71,19 @@
   "feedbackLink": {
     "message": "Send Feedback ↗"
   },
-    "imageSaving":{
+  "imageSaving": {
     "message": "Saving image..."
   },
-  "imageSavingFailed":{
+  "imageSavingFailed": {
     "message": "Failed to save image."
   },
-    "mediaFilterOn": {
+  "mediaFilterOn": {
     "message": "Media Filter：ON"
   },
   "mediaFilterOff": {
     "message": "Media Filter：OFF"
   },
-    "privateAccountFilterOn": {
+  "privateAccountFilterOn": {
     "message": "Private Account Filter：ON"
   },
   "privateAccountFilterOff": {
