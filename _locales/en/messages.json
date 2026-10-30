@@ -15,6 +15,9 @@
   "saveImageDescription": {
     "message": "Save images from the hovered post"
   },
+    "saveImageFolder": {
+    "message": "Saved to: Downloads/X_Images"
+  },
   "saveImageFileNameExample": {
     "message": "Example filename: YYYY-MM-DD_username"
   },
@@ -52,7 +55,7 @@
     "message": "Open the Media tab with photos selected by default"
   },
   "privateAccountFilterDescription": {
-    "message": "Blur posts from protected accounts (click to reveal)"
+    "message": "Press Shift + P to blur posts from protected accounts (click to reveal)"
   },
   "accountSwitcherDescription": {
     "message": "Press Shift + Space to open the account switcher"

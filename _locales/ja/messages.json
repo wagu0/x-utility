@@ -14,11 +14,14 @@
   "saveImageDescription": {
     "message": "ホバーしているポストの画像を保存"
   },
+  "saveImageFolder": {
+    "message": "※保存先: Downloads/X_Images"
+  },
   "saveImageFileNameExample": {
     "message": "※ファイル名例: YYYY-MM-DD_ユーザーネーム"
   },
   "saveImageMultipleFiles": {
-    "message": "複数画像の場合は末尾に番号が付きます"
+    "message": "※複数画像の場合は末尾に番号が付きます"
   },
   "shortcutTooltip": {
     "message": "クリックしたあと、設定したいキーを押してください、ESCでキャンセル"
@@ -51,7 +54,7 @@
     "message": "メディアページの標準を画像で開く"
   },
   "privateAccountFilterDescription": {
-    "message": "鍵付きアカウントのポストをぼかして表示する（クリックで解除）"
+    "message": "Shift + Pで鍵アカウントのポストをぼかして表示する（クリックで解除）"
   },
   "accountSwitcherDescription": {
     "message": "Shift + Spaceでアカウント切り替えメニューを表示"
