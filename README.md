@@ -1,12 +1,14 @@
 # X Utility
 
-X（旧Twitter）で、マウスを重ねたポストへの操作や画像の保存を、自分で設定したショートカットキーで行うChrome拡張機能です。
+X（旧Twitter）で、マウスを重ねたポストへの操作や画像の保存を、自分で設定したショートカットキーで行うChrome拡張機能です。メディア表示の絞り込み、鍵付きアカウントのポストのぼかし、アカウント切り替えなどにも対応しています。
+
+現在のリポジトリのバージョンは **1.2.0** です。
 
 [Chrome Web Storeでインストール](https://chromewebstore.google.com/detail/x-utility/gnlnlahoefpdkllpohjnfdfmodicmkee?hl=ja)
 
 ## デモ動画
 
-[![X Utility デモ動画](https://img.youtube.com/vi/d_bAJJWvwU0/maxresdefault.jpg)](https://youtu.be/d_bAJJWvwU0)
+[![X Utility デモ動画](https://img.youtube.com/vi/xNzHEvFkDaE/maxresdefault.jpg)](https://youtu.be/xNzHEvFkDaE)
 
 ## 開発背景
 
@@ -34,12 +36,12 @@ X（旧Twitter）で、マウスを重ねたポストへの操作や画像の保
 | 機能 | 動作 |
 | --- | --- |
 | Media Default Image | プロフィールのメディアページを開いたとき、画像のフィルターを自動で選択する |
-| Private Account Filter | 鍵付きアカウントのポストをぼかす。対象のポストをクリックするとぼかしを解除する |
+| Private Account Filter | Shift + Pで鍵付きアカウントのポストのぼかしを切り替え、ON/OFFを通知する。ぼかしたポストはクリックで個別に解除できる |
 | Account Switcher | Shift + SpaceでXのアカウント切り替えメニューを開き、画面中央に表示する |
 | Hide Other Account Notifications | アカウントメニューのボタンに表示される、別アカウントの未読通知表示を隠す |
 | Media Filter | Shift + Mでメディアを含むポストだけの表示と通常表示を切り替え、ON/OFFを通知する |
 
-Account SwitcherとMedia Filterのキーは固定で、ショートカット登録の対象ではありません。Media Filterはポスト内の `data-testid="tweetPhoto"` を使ってメディアを判定しています。
+Private Account Filter、Account Switcher、Media Filterのキーは固定で、ショートカット登録の対象ではありません。Media Filterはポスト内の `data-testid="tweetPhoto"` を使ってメディアを判定しています。
 
 ## 使い方
 
@@ -49,9 +51,11 @@ Account SwitcherとMedia Filterのキーは固定で、ショートカット登�
 
 チャットとプロフィールを開く操作では、ポストにマウスを重ねる必要はありません。
 
-画像の保存先には、ブラウザのダウンロード先にある `X_Images` フォルダを指定します。ファイル名は投稿の日付やユーザーIDなどから生成します。
+画像は元解像度を指定したURLから1枚ずつ保存します。保存先には、ブラウザのダウンロード先にある `X_Images` フォルダを指定します。ファイル名は `日付_ユーザーID.拡張子` とし、複数画像のポストでは `日付_ユーザーID_画像番号.拡張子` とします。ダウンロード要求の結果に応じて、保存中または失敗の通知を表示します。
 
-追加機能を使う場合は、設定画面の「機能設定」で対象のスイッチをオンにします。Account Switcherは **Shift + Space**、Media Filterは **Shift + M** で操作します。入力欄で文字を入力している間は、これらのショートカットは動作しません。
+追加機能を使う場合は、設定画面の「機能設定」で対象のスイッチをオンにします。Private Account Filterは **Shift + P**、Account Switcherは **Shift + Space**、Media Filterは **Shift + M** で操作します。入力欄で文字を入力している間は、これらのショートカットは動作しません。
+
+Private Account FilterとMedia Filterは、設定をオンにしただけでは適用されません。Xページでそれぞれの固定キーを押して適用・解除を切り替えます。ページの再読み込み後は適用が解除されるため、再度キーを押してください。設定画面で対象のスイッチをオフにした場合も、適用中のぼかしや絞り込みを解除します。
 
 設定画面の **Send Feedback ↗** から、バグ報告や機能要望を送るフォームを開けます。
 
@@ -66,7 +70,7 @@ JavaScript・HTML・CSSと、Chrome拡張機能のManifest V3を使用してい�
 | [service_worker.js](service_worker.js) | 画像のダウンロード要求、設定画面の起動 |
 | [options.html](options.html) / [options.js](options.js) / [options.css](options.css) | ショートカット設定画面と設定の保存 |
 | [mediaDefaultImage.js](mediaDefaultImage.js) | メディアページで画像フィルターを自動選択 |
-| [privateAccountFilter.js](privateAccountFilter.js) | 鍵付きアカウントのポストのぼかしと解除 |
+| [privateAccountFilter.js](privateAccountFilter.js) | Shift + Pによるぼかしの切り替え、追加ポストの監視、クリックによる個別解除 |
 | [accountSwitcher.js](accountSwitcher.js) / [accountSwitcher.css](accountSwitcher.css) | アカウント切り替えメニューの起動と中央表示 |
 | [otherAccountNotification.js](otherAccountNotification.js) | 別アカウントの未読通知表示を非表示にする処理 |
 | [mediaFilter.js](mediaFilter.js) | メディアを含むポストへの絞り込みと解除 |
@@ -85,6 +89,8 @@ XのDOMが変わった際に修正箇所を見つけやすくするため、ポ�
 不具合の影響範囲を小さくするため、各操作を関数に分けています。ページ内の `keydown` イベントから、キーとアクション、アクションと関数を対応付けた `Map` を使って処理を呼び出します。入力中・修飾キーの同時押し・長押しによる連続実行を防ぐ判定は、共通処理にまとめています。
 
 設定画面も `data-action` と共通クラスを使って各項目を扱い、キー登録や解除の処理を共通化しています。
+
+Private Account FilterとMedia Filterでは、設定画面での有効・無効と、Xページでのフィルター適用状態を分けて管理しています。適用中は `MutationObserver` で追加されるポストも処理し、解除時には監視を停止して表示を戻します。
 
 ### 失敗時の処理を用意する
 
