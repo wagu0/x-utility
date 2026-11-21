@@ -2,11 +2,12 @@
 const HIDE_OTHER_ACCOUNT_NOTIFICATIONS_SETTING_KEY =
   "hideOtherAccountNotifications";
 /** 追加する要素のstyle  */
-const HIDE_NOTIFICATION_STYLE_ID = "hide-other-account-notifications";
+const HIDE_OTHER_ACCOUNT_NOTIFICATIONS_STYLE_ID =
+  "hide-other-account-notifications";
 // 初期化
-initializeOtherAccountNotification();
+initializeHideOtherAccountNotification();
 
-async function initializeOtherAccountNotification() {
+async function initializeHideOtherAccountNotification() {
   const hideOtherAccountNotificationsSetting =
     (await getSetting(HIDE_OTHER_ACCOUNT_NOTIFICATIONS_SETTING_KEY)) === true;
   // 設定値がtrueなら非表示にする
@@ -42,7 +43,7 @@ function hideOtherAccountNotification() {
   hideCSS.textContent =
     "[data-testid='SideNav_AccountSwitcher_Button'] div[aria-label$='件の未読項目'], " +
     "[data-testid='SideNav_AccountSwitcher_Button'] div[aria-label$='undefined unread items'] {display: none;}";
-  hideCSS.id = HIDE_NOTIFICATION_STYLE_ID;
+  hideCSS.id = HIDE_OTHER_ACCOUNT_NOTIFICATIONS_STYLE_ID;
   document.head.appendChild(hideCSS);
 }
 // styleを削除し通知を再表示する
@@ -51,10 +52,14 @@ function showOtherAccountNotification() {
   if (!existsOtherAccountNotificationStyle()) {
     return;
   }
-  const hideCSS = document.getElementById(HIDE_NOTIFICATION_STYLE_ID);
+  const hideCSS = document.getElementById(
+    HIDE_OTHER_ACCOUNT_NOTIFICATIONS_STYLE_ID,
+  );
   document.head.removeChild(hideCSS);
 }
 // すでにcssが存在するかどうかをbool型で返す
 function existsOtherAccountNotificationStyle() {
-  return document.getElementById(HIDE_NOTIFICATION_STYLE_ID) !== null;
+  return (
+    document.getElementById(HIDE_OTHER_ACCOUNT_NOTIFICATIONS_STYLE_ID) !== null
+  );
 }
