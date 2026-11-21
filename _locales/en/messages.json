@@ -65,6 +65,9 @@
   "mediaFilterDescription": {
     "message": "Press Shift + M to show only posts containing media"
   },
+  "hideDMNotificationsDescription": {
+    "message": "Hide DM notifications"
+  },
   "feedbackDescription": {
     "message": "Bug reports, feature requests, and feedback are welcome."
   },

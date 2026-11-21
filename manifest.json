@@ -16,7 +16,8 @@
                 "privateAccountFilter.js",
                 "mediaDefaultImage.js",
                 "accountSwitcher.js",
-                "otherAccountNotification.js",
+                "hideOtherAccountNotifications.js",
+                "hideDMNotifications.js",
                 "mediaFilter.js"
             ],
             "css": [

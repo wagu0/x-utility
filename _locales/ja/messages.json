@@ -65,6 +65,9 @@
   "mediaFilterDescription": {
     "message": "Shift + Mで表示するツイートをメディアのみに変更"
   },
+  "hideDMNotificationsDescription": {
+    "message": "DMの通知を非表示にする"
+  },
   "feedbackDescription": {
     "message": "バグ報告・機能要望・ご意見をお寄せください"
   },
