@@ -12,7 +12,6 @@ async function initializeHideDMNotifications() {
   if (hideDMNotificationsSetting) {
     hideDMNotification();
   }
-  console.log("hideDMNotificationsSetting:", hideDMNotificationsSetting);
 }
 chrome.storage.localの変更を監視する関数;
 chrome.storage.onChanged.addListener((changes, areaName) => {
