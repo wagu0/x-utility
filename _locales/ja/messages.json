@@ -110,7 +110,7 @@
   "bookmarkName":{
     "message": "ブックマーク"
   },
-    "retweetName":{
+    "retweetTweetName":{
     "message": "リポスト"
   },
   "openDirectMessageName":{
