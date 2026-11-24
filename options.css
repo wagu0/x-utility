@@ -459,3 +459,6 @@ body {
 .setting-checkbox:disabled::after {
   background: #aab6c5;
 }
+.supported-languages-note {
+  margin: 0;
+}

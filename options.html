@@ -1,31 +1,29 @@
 <!doctype html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="options.css" />
-    <script src="options.js" defer></script>
-    <title>X Utility Settings</title>
-  </head>
 
-  <body>
-    <main class="settings">
-      <header class="settings-header">
-        <h1 class="title">Settings</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="options.css" />
+  <script src="options.js" defer></script>
+  <title>X Utility Settings</title>
+</head>
 
-        <p class="description" data-i18n="settingsDescription"></p>
-      </header>
+<body>
+  <main class="settings">
+    <header class="settings-header">
+      <h1 class="title">Settings</h1>
 
-      <section class="settings-list">
-         <!-- ショートカットキー設定 -->
-  <section class="settings-category">
-    <h2
-      class="category-title"
-      data-i18n="keyboardShortcutsTitle"
-    ></h2>
+      <p class="description" data-i18n="settingsDescription"></p>
+    </header>
+
+    <section class="settings-list">
+      <!-- ショートカットキー設定 -->
+      <section class="settings-category">
+        <h2 class="category-title" data-i18n="keyboardShortcutsTitle"></h2>
         <div class="shortcut-item" data-action="saveImage">
           <div class="shortcut-info">
-            <p class="shortcut-name">Save image</p>
+            <p class="shortcut-name" data-i18n="saveImageName"></p>
 
             <p class="shortcut-description">
               <span data-i18n="saveImageDescription"></span>
@@ -51,16 +49,13 @@
               </div>
               <button class="clear-button" type="button">Clear</button>
             </div>
-            <div
-              class="shortcut-error"
-              data-i18n="shortcutDuplicateError"
-            ></div>
+            <div class="shortcut-error" data-i18n="shortcutDuplicateError"></div>
           </div>
         </div>
 
         <div class="shortcut-item" data-action="likeTweet">
           <div class="shortcut-info">
-            <p class="shortcut-name">Like</p>
+            <p class="shortcut-name" data-i18n="likeName"></p>
 
             <p class="shortcut-description" data-i18n="likeDescription"></p>
           </div>
@@ -77,16 +72,13 @@
               </div>
               <button class="clear-button" type="button">Clear</button>
             </div>
-            <div
-              class="shortcut-error"
-              data-i18n="shortcutDuplicateError"
-            ></div>
+            <div class="shortcut-error" data-i18n="shortcutDuplicateError"></div>
           </div>
         </div>
 
         <div class="shortcut-item" data-action="bookmarkTweet">
           <div class="shortcut-info">
-            <p class="shortcut-name">Bookmark</p>
+            <p class="shortcut-name" data-i18n="bookmarkName"></p>
 
             <p class="shortcut-description" data-i18n="bookmarkDescription"></p>
           </div>
@@ -103,16 +95,13 @@
               </div>
               <button class="clear-button" type="button">Clear</button>
             </div>
-            <div
-              class="shortcut-error"
-              data-i18n="shortcutDuplicateError"
-            ></div>
+            <div class="shortcut-error" data-i18n="shortcutDuplicateError"></div>
           </div>
         </div>
 
         <div class="shortcut-item" data-action="retweetTweet">
           <div class="shortcut-info">
-            <p class="shortcut-name">Repost</p>
+            <p class="shortcut-name" data-i18n="retweetName"></p>
 
             <p class="shortcut-description">
               <span data-i18n="retweetDescription"></span>
@@ -133,189 +122,153 @@
               </div>
               <button class="clear-button" type="button">Clear</button>
             </div>
-            <div
-              class="shortcut-error"
-              data-i18n="shortcutDuplicateError"
-            ></div>
+            <div class="shortcut-error" data-i18n="shortcutDuplicateError"></div>
           </div>
         </div>
-        </section>
+      </section>
 
-        <div class="shortcut-item" data-action="openDirectMessage">
-          <div class="shortcut-info">
-            <p class="shortcut-name">Open Chat</p>
+      <div class="shortcut-item" data-action="openDirectMessage">
+        <div class="shortcut-info">
+          <p class="shortcut-name" data-i18n="openDirectMessageName"></p>
 
-            <p
-              class="shortcut-description"
-              data-i18n="openDirectMessageDescription"
-            ></p>
-          </div>
-          <div class="shortcut-setting">
-            <div class="shortcut-controls">
-              <div class="key" data-i18n="shortcutNotSet"></div>
+          <p class="shortcut-description" data-i18n="openDirectMessageDescription"></p>
+        </div>
+        <div class="shortcut-setting">
+          <div class="shortcut-controls">
+            <div class="key" data-i18n="shortcutNotSet"></div>
 
-              <div class="record-wrapper">
-                <button class="record-button" type="button">
-                  Record shortcut
-                </button>
+            <div class="record-wrapper">
+              <button class="record-button" type="button">
+                Record shortcut
+              </button>
 
-                <div class="tooltip" data-i18n="shortcutTooltip"></div>
-              </div>
-              <button class="clear-button" type="button">Clear</button>
+              <div class="tooltip" data-i18n="shortcutTooltip"></div>
             </div>
-            <div
-              class="shortcut-error"
-              data-i18n="shortcutDuplicateError"
-            ></div>
+            <button class="clear-button" type="button">Clear</button>
           </div>
+          <div class="shortcut-error" data-i18n="shortcutDuplicateError"></div>
         </div>
+      </div>
 
-        <div class="shortcut-item" data-action="openProfilePage">
-          <div class="shortcut-info">
-            <p class="shortcut-name">Open Profile</p>
+      <div class="shortcut-item" data-action="openProfilePage">
+        <div class="shortcut-info">
+          <p class="shortcut-name" data-i18n="openProfilePageName"></p>
 
-            <p
-              class="shortcut-description"
-              data-i18n="openProfilePageDescription"
-            ></p>
-          </div>
-          <div class="shortcut-setting">
-            <div class="shortcut-controls">
-              <div class="key" data-i18n="shortcutNotSet"></div>
+          <p class="shortcut-description" data-i18n="openProfilePageDescription"></p>
+        </div>
+        <div class="shortcut-setting">
+          <div class="shortcut-controls">
+            <div class="key" data-i18n="shortcutNotSet"></div>
 
-              <div class="record-wrapper">
-                <button class="record-button" type="button">
-                  Record shortcut
-                </button>
+            <div class="record-wrapper">
+              <button class="record-button" type="button">
+                Record shortcut
+              </button>
 
-                <div class="tooltip" data-i18n="shortcutTooltip"></div>
-              </div>
-              <button class="clear-button" type="button">Clear</button>
+              <div class="tooltip" data-i18n="shortcutTooltip"></div>
             </div>
-            <div
-              class="shortcut-error"
-              data-i18n="shortcutDuplicateError"
-            ></div>
+            <button class="clear-button" type="button">Clear</button>
           </div>
+          <div class="shortcut-error" data-i18n="shortcutDuplicateError"></div>
         </div>
-      </section>
-       <!-- 機能設定 -->
-  <section class="settings-category">
-    <h2
-      class="category-title"
-      data-i18n="featureSettingsTitle"
-    ></h2>
+      </div>
+    </section>
+    <!-- 機能設定 -->
+    <section class="settings-category">
+      <h2 class="category-title" data-i18n="featureSettingsTitle"></h2>
 
-        <div class="setting-item">
-          <div class="setting-info">
-            <p class="setting-name">Media Default Image</p>
+      <div class="setting-item">
+        <div class="setting-info">
+          <p class="setting-name" data-i18n="mediaDefaultName"></p>
 
-            <p
-              class="setting-description"
-              data-i18n="mediaDefaultDescription"
-            ></p>
-          </div>
-          <div class="setting-controls">
-            <input
-              type="checkbox"
-              class="setting-checkbox"
-              data-setting="mediaDefaultImage"
-            />
-          </div>
+          <p class="setting-description" data-i18n="mediaDefaultDescription"></p>
         </div>
-
-        <div class="setting-item">
-          <div class="setting-info">
-            <p class="setting-name">Private Account Filter</p>
-
-            <p class="setting-description" data-i18n="privateAccountFilterDescription"></p>
-          </div>
-          <div class="setting-controls">
-            <input
-              type="checkbox"
-              class="setting-checkbox"
-              data-setting="privateAccountFilter"
-            />
-          </div>
+        <div class="setting-controls">
+          <input type="checkbox" class="setting-checkbox" data-setting="mediaDefaultImage" />
         </div>
+      </div>
 
-        <div class="setting-item">
-          <div class="setting-info">
-            <p class="setting-name">Account Switcher</p>
+      <div class="setting-item">
+        <div class="setting-info">
+          <p class="setting-name" data-i18n="accountSwitcherName"></p>
 
-            <p class="setting-description" data-i18n="accountSwitcherDescription"></p>
-            </p>
-          </div>
-          <div class="setting-controls">
-            <input
-              type="checkbox"
-              class="setting-checkbox"
-              data-setting="accountSwitcher"
-            />
-          </div>
+          <p class="setting-description" data-i18n="accountSwitcherDescription"></p>
+          </p>
         </div>
-        <div class="setting-item">
-          <div class="setting-info">
-            <p class="setting-name">Hide Other Account Notifications</p>
-
-            <p class="setting-description" data-i18n="hideOtherAccountNotificationsDescription"></p>
-            </p>
-          </div>
-          <div class="setting-controls">
-            <input
-              type="checkbox"
-              class="setting-checkbox"
-              data-setting="hideOtherAccountNotifications"
-            />
-          </div>
+        <div class="setting-controls">
+          <input type="checkbox" class="setting-checkbox" data-setting="accountSwitcher" />
         </div>
+      </div>
+      <div class="setting-item">
+        <div class="setting-info">
+          <p class="setting-name" data-i18n="switchAccountViaPostBoxAvatarName"></p></p>
 
-        <div class="setting-item">
-          <div class="setting-info">
-            <p class="setting-name">Media Filter</p>
-
-            <p class="setting-description" data-i18n="mediaFilterDescription"></p>
-            </p>
-          </div>
-          <div class="setting-controls">
-            <input
-              type="checkbox"
-              class="setting-checkbox"
-              data-setting="mediaFilter"
-            />
-          </div>
+          <p class="setting-description" data-i18n="switchAccountViaPostBoxAvatarDescription"></p>
+          </p>
         </div>
-        <div class="setting-item">
-          <div class="setting-info">
-            <p class="setting-name">Hide DM Notifications</p>
-
-            <p class="setting-description" data-i18n="hideDMNotificationsDescription"></p>
-            </p>
-          </div>
-          <div class="setting-controls">
-            <input
-              type="checkbox"
-              class="setting-checkbox"
-              data-setting="hideDMNotifications"
-            />
-          </div>
+        <div class="setting-controls">
+          <input type="checkbox" class="setting-checkbox" data-setting="switchAccountsViaPostBoxAvatar" />
         </div>
-      </section>
-      </section>
+      </div>
 
-      <section class="feedback-section">
-        <div class="feedback-info">
-          <h2 class="feedback-title">Feedback & Support</h2>
-          <p class="feedback-description" data-i18n="feedbackDescription"></p>
+      <div class="setting-item">
+        <div class="setting-info">
+          <p class="setting-name" data-i18n="hideOtherAccountNotificationsName"></p>
+          <p class="setting-description" data-i18n="hideOtherAccountNotificationsDescription"></p>
+          <p class="supported-languages-note" data-i18n="supportedLanguagesNote"></p>
         </div>
-        <a
-          class="feedback-link" 
-          href="https://docs.google.com/forms/d/e/1FAIpQLScCXT3sUnWH7_Kr08QQAYjAumUYvaZY1KPCkBCQvQCYA9smPw/viewform?usp=publish-editor"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-i18n="feedbackLink"
-        ></a>
-      </section>
-    </main>
-  </body>
+        <div class="setting-controls">
+          <input type="checkbox" class="setting-checkbox" data-setting="hideOtherAccountNotifications" />
+        </div>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-info">
+          <p class="setting-name" data-i18n="hideDMNotificationsName"></p>
+
+          <p class="setting-description" data-i18n="hideDMNotificationsDescription"></p>
+          <p class="supported-languages-note" data-i18n="supportedLanguagesNote"></p>
+        </div>
+        <div class="setting-controls">
+          <input type="checkbox" class="setting-checkbox" data-setting="hideDMNotifications" />
+        </div>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-info">
+          <p class="setting-name" data-i18n="mediaFilterName"></p></p>
+
+          <p class="setting-description" data-i18n="mediaFilterDescription"></p>
+          </p>
+        </div>
+        <div class="setting-controls">
+          <input type="checkbox" class="setting-checkbox" data-setting="mediaFilter" />
+        </div>
+      </div>
+      <div class="setting-item">
+        <div class="setting-info">
+          <p class="setting-name" data-i18n="privateAccountFilterName"></p>
+
+          <p class="setting-description" data-i18n="privateAccountFilterDescription"></p>
+        </div>
+        <div class="setting-controls">
+          <input type="checkbox" class="setting-checkbox" data-setting="privateAccountFilter" />
+        </div>
+      </div>
+
+    </section>
+    </section>
+
+    <section class="feedback-section">
+      <div class="feedback-info">
+        <h2 class="feedback-title">Feedback & Support</h2>
+        <p class="feedback-description" data-i18n="feedbackDescription"></p>
+      </div>
+      <a class="feedback-link"
+        href="https://docs.google.com/forms/d/e/1FAIpQLScCXT3sUnWH7_Kr08QQAYjAumUYvaZY1KPCkBCQvQCYA9smPw/viewform?usp=publish-editor"
+        target="_blank" rel="noopener noreferrer" data-i18n="feedbackLink"></a>
+    </section>
+  </main>
+</body>
+
 </html>
