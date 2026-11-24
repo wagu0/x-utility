@@ -42,7 +42,7 @@
     "message": "※リポストまたは解除の選択画面が開かれます"
   },
   "openDirectMessageDescription": {
-        "message":"チャットを開く"
+    "message":"チャットを開く"
   },
   "openProfilePageDescription": {
     "message":"プロフィールページを開く"
@@ -54,10 +54,13 @@
     "message": "メディアページの標準を画像で開く"
   },
   "privateAccountFilterDescription": {
-    "message": "Shift + Pで鍵アカウントのポストをぼかして表示する（クリックで解除）"
+    "message": "Shift + Pで鍵アカウントのポストをぼかして表示する（クリックで表示）"
   },
   "accountSwitcherDescription": {
     "message": "Shift + Spaceでアカウント切り替えメニューを表示"
+  },
+    "switchAccountViaPostBoxAvatarDescription": {
+    "message": "ポスト入力欄のプロフィールアイコンをクリックでアカウント切り替えメニューを表示"
   },
   "hideOtherAccountNotificationsDescription": {
     "message": "アカウントメニューに表示される別のアカウントの通知を非表示にする"
@@ -67,6 +70,9 @@
   },
   "hideDMNotificationsDescription": {
     "message": "DMの通知を非表示にする"
+  },
+  "supportedLanguagesNote":{
+    "message": "※日本語・英語環境のみサポート"
   },
   "feedbackDescription": {
     "message": "バグ報告・機能要望・ご意見をお寄せください"
@@ -94,5 +100,44 @@
   },
   "shortcutNotSet": {
     "message": "未設定"
+  },
+  "saveImageName":{
+    "message": "画像保存"
+  },
+  "likeName":{
+    "message": "いいね"
+  },
+  "bookmarkName":{
+    "message": "ブックマーク"
+  },
+    "retweetName":{
+    "message": "リポスト"
+  },
+  "openDirectMessageName":{
+    "message": "チャットを開く"
+  },
+  "openProfilePageName":{
+    "message": "プロフィールページを開く"
+  },
+  "mediaDefaultName":{
+    "message": "メディアページの標準を画像で開く"
+  },
+  "accountSwitcherName":{
+    "message": "アカウント切り替えメニュー"
+  },
+  "switchAccountViaPostBoxAvatarName":{
+    "message": "プロフィールアイコンでアカウント切り替えメニュー"
+  },
+  "hideOtherAccountNotificationsName":{
+    "message": "アカウントメニューに表示される別のアカウントの通知を非表示にする"
+  },
+  "hideDMNotificationsName":{
+    "message": "DMの通知を非表示"
+  },
+  "mediaFilterName":{
+    "message": "メディアフィルター"
+  },
+  "privateAccountFilterName":{
+    "message": "プライベートアカウントフィルター"
   }
 }

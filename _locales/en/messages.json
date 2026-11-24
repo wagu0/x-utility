@@ -59,6 +59,9 @@
   "accountSwitcherDescription": {
     "message": "Press Shift + Space to open the account switcher"
   },
+  "switchAccountViaPostBoxAvatarDescription": {
+  "message": "Click your profile picture in the post box to open the account switcher menu."
+  },
   "hideOtherAccountNotificationsDescription": {
     "message": "Hide notifications for other accounts in the account menu"
   },
@@ -67,6 +70,9 @@
   },
   "hideDMNotificationsDescription": {
     "message": "Hide DM notifications"
+  },
+  "supportedLanguagesNote":{
+    "message": "*Officially supported in Japanese and English only"
   },
   "feedbackDescription": {
     "message": "Bug reports, feature requests, and feedback are welcome."
@@ -94,5 +100,44 @@
   },
   "shortcutNotSet": {
     "message": "Not set"
+  },
+    "saveImageName": {
+    "message": "Save Image"
+  },
+  "likeName": {
+    "message": "Like"
+  },
+  "bookmarkName": {
+    "message": "Bookmark"
+  },
+  "retweetName": {
+    "message": "Repost"
+  },
+  "openDirectMessageName": {
+    "message": "Open Chat"
+  },
+  "openProfilePageName": {
+    "message": "Open Profile"
+  },
+  "mediaDefaultName": {
+    "message": "Media Default Image"
+  },
+  "accountSwitcherName": {
+    "message": "Account Switcher"
+  },
+  "switchAccountViaPostBoxAvatarName": {
+    "message": "Switch Accounts via Post Box Avatar"
+  },
+  "hideOtherAccountNotificationsName": {
+    "message": "Hide Other Account Notifications"
+  },
+  "hideDMNotificationsName": {
+    "message": "Hide DM Notifications"
+  },
+  "mediaFilterName": {
+    "message": "Media Filter"
+  },
+  "privateAccountFilterName": {
+    "message": "Private Account Filter"
   }
 }
